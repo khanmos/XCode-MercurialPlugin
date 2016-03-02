@@ -47,7 +47,9 @@
     }
   }
   
-  ctx.projectPath = [[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
+  NSString *workspacePath = [[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
+  
+  ctx.projectPath = [workspacePath stringByDeletingLastPathComponent];
 }
 
 @end

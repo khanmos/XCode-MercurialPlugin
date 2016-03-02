@@ -31,11 +31,11 @@
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" translatesAutoresizingMaskIntoConstraints="NO" id="tVg-iO-Cje">
                         <rect key="frame" x="20" y="54" width="441" height="186"/>
                         <clipView key="contentView" id="aqk-5t-2e9">
-                            <rect key="frame" x="1" y="0.0" width="439" height="185"/>
+                            <rect key="frame" x="1" y="0.0" width="439" height="170"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="T4e-F3-L6l" viewBased="YES" id="Qro-BF-6Xx">
-                                    <rect key="frame" x="0.0" y="0.0" width="509" height="162"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="509" height="147"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -184,7 +184,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                         <connections>
-                            <binding destination="-2" name="hidden" keyPath="self.filesStatusTableView" id="8aR-bd-3hF"/>
+                            <binding destination="-2" name="hidden" keyPath="self.modifiedFilesTableView" id="ZQo-UL-6eY"/>
                         </connections>
                     </scrollView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZD0-z8-cnV">
