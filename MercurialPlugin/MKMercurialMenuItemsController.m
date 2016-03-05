@@ -20,11 +20,13 @@
 static NSString * const kSourceControlMenuItemName = @"Source Control";
 static NSString * const kMercurialMenuItemName = @"Mercurial";
 
+static NSMenuItem *s_moreMenuItem;
 @interface MKMercurialMenuItemsController ()
 
 @property (nonatomic, strong) NSArray<NSMenuItem*> *modifiedFilesMenuItems;
 @property (nonatomic, strong) MKFilesStatusWindowController *vc;
 @property (nonatomic, strong) MKFilesStatusService *filesStatusService;
+@property (assign) BOOL processingFilesStatus;
 
 @end
 
@@ -36,6 +38,8 @@ static NSString * const kMercurialMenuItemName = @"Mercurial";
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     oneMeuItem = [[MKMercurialMenuItemsController alloc] init];
+    
+    s_moreMenuItem = [oneMeuItem _moreMenuItem];
   });
   
   return oneMeuItem;
@@ -138,9 +142,11 @@ static NSString * const kMercurialMenuItemName = @"Mercurial";
 
 - (void) handleModifiedFilesFound:(NSArray<MKMercurialFile *> *)allModifiedFiles
 {
-  if (allModifiedFiles.count == 0) {
+  if (allModifiedFiles.count == 0 || self.processingFilesStatus) {
     return;
   }
+  
+  self.processingFilesStatus = YES;
   
   NSMenuItem *sourceControlMenu = [[NSApp mainMenu] itemWithTitle:kSourceControlMenuItemName];
   
@@ -154,24 +160,35 @@ static NSString * const kMercurialMenuItemName = @"Mercurial";
   
   dispatch_async(dispatch_get_main_queue(), ^{
     
-    if (self.modifiedFilesMenuItems.count > 0){
-      for (NSMenuItem *menuItem in self.modifiedFilesMenuItems){
-        [sourceControlMenu.submenu removeItem:menuItem];
-      }
-    }
-    
-    self.modifiedFilesMenuItems = [self _menuItemsFromModifiedFiles:allModifiedFiles];
-    
-    int i=0;
-    for (NSMenuItem *menuItem in self.modifiedFilesMenuItems){
-
-      [sourceControlMenu.submenu addItem:menuItem];
-      i++;
+    @synchronized(self.modifiedFilesMenuItems) {
       
-      if (i == MAX_MODIFIED_FILES_IN_MENU){
-        [sourceControlMenu.submenu addItem:[self _moreMenuItem]];
-        break;
+      if (self.modifiedFilesMenuItems.count > 0){
+        for (NSMenuItem *menuItem in self.modifiedFilesMenuItems){
+          if (menuItem.parentItem){
+            [sourceControlMenu.submenu removeItem:menuItem];
+          }
+        }
       }
+      
+      if (s_moreMenuItem.parentItem){
+        [sourceControlMenu.submenu removeItem:s_moreMenuItem];
+      }
+      
+      self.modifiedFilesMenuItems = [self _menuItemsFromModifiedFiles:allModifiedFiles];
+    
+      int i=0;
+      for (NSMenuItem *menuItem in self.modifiedFilesMenuItems){
+        
+        [sourceControlMenu.submenu addItem:menuItem];
+        i++;
+        
+        if (i == MAX_MODIFIED_FILES_IN_MENU){
+          [sourceControlMenu.submenu addItem:s_moreMenuItem];
+          break;
+        }
+      }
+      
+      self.processingFilesStatus = NO;
     }
   });
 }

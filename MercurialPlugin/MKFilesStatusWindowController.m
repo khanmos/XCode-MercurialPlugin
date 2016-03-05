@@ -85,6 +85,18 @@ NSTableViewDelegate
   } else {
     cellId = @"ActionButtonCellID";
     isActionButtonColumn = YES;
+    
+    switch (file.state) {
+      case MKMercurialFileStateUntracked:
+        title = @"Delete";
+        break;
+      case MKMercurialFileStateConflicted:
+        title = @"Resolve";
+        break;
+      default:
+        title = @"Revert";
+        break;
+    }
   }
   
   NSTableCellView *cell = (NSTableCellView*)[tableView makeViewWithIdentifier:cellId owner:nil];
@@ -96,6 +108,7 @@ NSTableViewDelegate
       [cell.subviews enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[NSButton class]]){
           NSButton *btn = (NSButton *)obj;
+          btn.title = title;
           if (!btn.action){
             btn.action = @selector(didTapRevertButton:);
             btn.target = welf;
@@ -121,6 +134,8 @@ NSTableViewDelegate
   
   MKMercurialFile *selectedFile = self.modifiedFiles[button.tag];
   NSLog(@"Reverting %@", selectedFile.fileName);
+  
+  NSString *titleText = @"";
   
   NSAlert *alert = [[NSAlert alloc] init];
   [alert addButtonWithTitle:@"OK"];
