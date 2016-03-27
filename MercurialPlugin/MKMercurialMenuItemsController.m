@@ -7,24 +7,25 @@
 //
 
 #import "MKMercurialMenuItemsController.h"
-#import "MKFilesStatusService.h"
-#import "MKFilesStatusWindowController.h"
+#import "MKModifiedFilesStatusTableWindowController.h"
 #import "MKNotificationConstants.h"
 #import "MKFilesStatusService.h"
 #import "MKFileStatusParser.h"
 #import "MKXCodeNavigator.h"
-#import "MKMercurialMenuItem.h"
-
-#define MAX_MODIFIED_FILES_IN_MENU 5
+#import "MKModifiedFilesStatusMenu.h"
+#import "MKModifiedFilesMenuItemsDataSource.h"
+#import "MKWindowPresenter.h"
 
 static NSString * const kSourceControlMenuItemName = @"Source Control";
 static NSString * const kMercurialMenuItemName = @"Mercurial";
 
-static NSMenuItem *s_moreMenuItem;
-@interface MKMercurialMenuItemsController ()
+@interface MKMercurialMenuItemsController () <MKModifiedFilesStatusMenuDelegate>
 
-@property (nonatomic, strong) NSArray<NSMenuItem*> *modifiedFilesMenuItems;
-@property (nonatomic, strong) MKFilesStatusWindowController *vc;
+@property (nonatomic, strong) NSArray<MKMercurialFile *> *sortedModifiedFiles;
+@property (nonatomic, strong) MKModifiedFilesStatusMenu *modifiedFilesMenu;
+@property (nonatomic, strong) MKModifiedFilesMenuItemsDataSource *menuItemsDataSource;
+
+@property (nonatomic, strong) MKModifiedFilesStatusTableWindowController *modifiedFilesStatusTableViewController;
 @property (nonatomic, strong) MKFilesStatusService *filesStatusService;
 @property (assign) BOOL processingFilesStatus;
 
@@ -38,8 +39,6 @@ static NSMenuItem *s_moreMenuItem;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     oneMeuItem = [[MKMercurialMenuItemsController alloc] init];
-    
-    s_moreMenuItem = [oneMeuItem _moreMenuItem];
   });
   
   return oneMeuItem;
@@ -70,7 +69,13 @@ static NSMenuItem *s_moreMenuItem;
       [actionMenuItem setTarget:self];
       [[menuItem submenu] addItem:actionMenuItem];
       
-      [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
+      //[[menuItem submenu] addItem:[NSMenuItem separatorItem]];
+      
+      self.modifiedFilesMenu = [[MKModifiedFilesStatusMenu alloc] initWithMainMercurialMenu:actionMenuItem];
+      self.menuItemsDataSource = [[MKModifiedFilesMenuItemsDataSource alloc] init];
+      
+      self.modifiedFilesMenu.dataSource = self.menuItemsDataSource;
+      self.modifiedFilesMenu.delegate = self;
     }
   };
   
@@ -84,73 +89,15 @@ static NSMenuItem *s_moreMenuItem;
   }];
 }
 
-- (void) setModifiedFilesStatus:(NSArray <MKMercurialFile*>*)files {
-  
-}
-
-#pragma mark - Private
-
-- (NSArray<MKMercurialMenuItem *> *) _menuItemsFromModifiedFiles:(NSArray<MKMercurialFile *> *)modifiedFiles {
-  
-  if (modifiedFiles.count > 0){
-    NSMutableArray *modifiedFilesMenuItems = [NSMutableArray arrayWithCapacity:modifiedFiles.count];
-    NSInteger index = 0;
-    for(MKMercurialFile *file in modifiedFiles) {
-      [modifiedFilesMenuItems addObject:[self _menuItemFromModifiedFile:file atIndex:index++]];
-    }
-    return modifiedFilesMenuItems;
-  }
-  
-  return nil;
-}
-
-- (NSMenuItem*) _moreMenuItem {
-  
-  NSMutableAttributedString *attrMoreStr = [[NSMutableAttributedString alloc] initWithString:@"..."];
-  
-  [attrMoreStr setAttributes:@{NSFontAttributeName : [NSFont boldSystemFontOfSize:[NSFont systemFontSize]]} range:NSMakeRange(0,3)];
-  
-  NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@""
-                                                          action:@selector(showMoreModifiedFiles:)
-                                                   keyEquivalent:@""];
-  
-  actionMenuItem.attributedTitle = attrMoreStr;
-  
-  actionMenuItem.enabled = NO;
-  [actionMenuItem setTarget:self];
-  
-  return actionMenuItem;
-}
-
-- (NSMenuItem*) _menuItemFromModifiedFile:(MKMercurialFile*)file atIndex:(NSInteger)index {
-  
-  NSString *statusWithFileName = [NSString stringWithFormat:@"%c %@", MercurialCharFromState(file.state), file.fileName];
-  
-  MKMercurialMenuItem *actionMenuItem = [[MKMercurialMenuItem alloc] initWithTitle:statusWithFileName
-                                                          action:@selector(modifiedFileSelectedHandler:)
-                                                   keyEquivalent:@""];
-  
-  
-  actionMenuItem.menuID = index;
-  actionMenuItem.enabled = NO;
-  [actionMenuItem setTarget:self];
-  
-  return actionMenuItem;
-}
-
 #pragma mark - Notification Handlers
 
 - (void) handleModifiedFilesFound:(NSArray<MKMercurialFile *> *)allModifiedFiles
 {
-  if (allModifiedFiles.count == 0 || self.processingFilesStatus) {
+  if (self.processingFilesStatus) {
     return;
   }
   
-  self.processingFilesStatus = YES;
-  
-  NSMenuItem *sourceControlMenu = [[NSApp mainMenu] itemWithTitle:kSourceControlMenuItemName];
-  
-  allModifiedFiles = [allModifiedFiles sortedArrayUsingComparator:^NSComparisonResult(MKMercurialFile *  _Nonnull obj1, MKMercurialFile *  _Nonnull obj2) {
+  self.sortedModifiedFiles = [allModifiedFiles sortedArrayUsingComparator:^NSComparisonResult(MKMercurialFile *  _Nonnull obj1, MKMercurialFile *  _Nonnull obj2) {
     
     char c1 = MercurialCharFromState(obj1.state);
     char c2 = MercurialCharFromState(obj2.state);
@@ -158,39 +105,8 @@ static NSMenuItem *s_moreMenuItem;
     return c1 > c2 ? NSOrderedAscending : NSOrderedDescending;
   }];
   
-  dispatch_async(dispatch_get_main_queue(), ^{
-    
-    @synchronized(self.modifiedFilesMenuItems) {
-      
-      if (self.modifiedFilesMenuItems.count > 0){
-        for (NSMenuItem *menuItem in self.modifiedFilesMenuItems){
-          if (menuItem.parentItem){
-            [sourceControlMenu.submenu removeItem:menuItem];
-          }
-        }
-      }
-      
-      if (s_moreMenuItem.parentItem){
-        [sourceControlMenu.submenu removeItem:s_moreMenuItem];
-      }
-      
-      self.modifiedFilesMenuItems = [self _menuItemsFromModifiedFiles:allModifiedFiles];
-    
-      int i=0;
-      for (NSMenuItem *menuItem in self.modifiedFilesMenuItems){
-        
-        [sourceControlMenu.submenu addItem:menuItem];
-        i++;
-        
-        if (i == MAX_MODIFIED_FILES_IN_MENU){
-          [sourceControlMenu.submenu addItem:s_moreMenuItem];
-          break;
-        }
-      }
-      
-      self.processingFilesStatus = NO;
-    }
-  });
+  self.menuItemsDataSource.modifiedFiles = self.sortedModifiedFiles;
+  [self.modifiedFilesMenu reloadMenuItems];
 }
 
 - (void )handleRevertFileNotification:(NSNotification*) notification {
@@ -198,39 +114,25 @@ static NSMenuItem *s_moreMenuItem;
   
   [self.filesStatusService revertFile:fileToRevert onComplete:^(BOOL success) {
     
-    [self.vc applyFileRevertedChangesToView:fileToRevert];
+    [self.modifiedFilesStatusTableViewController applyFileRevertedChangesToView:fileToRevert];
   }];
 }
 
-#pragma mark - Menu Item handlers
+#pragma mark - MKModifiedFilesMenuDelegate
 
-- (void)voidMethod:(id)sender{}
-
-- (void) modifiedFileSelectedHandler:(id)sender {
-  MKMercurialMenuItem *selectedItem = (MKMercurialMenuItem*)sender;
-  
+- (void)modifiedFilesMenu:(MKModifiedFilesStatusMenu *)modifiedFilesMenu didSelectMenuItemAtIndex:(NSInteger)index
+{
   MKMercurialFile *selectedFile =
-    self.filesStatusService.allModifiedFiles[selectedItem.menuID];
+  self.sortedModifiedFiles[index];
   [MKXCodeNavigator openFileInEditorWithURL:[NSURL fileURLWithPath:selectedFile.filePath isDirectory:NO]];
 }
 
-- (void) showMoreModifiedFiles:(id)sender {
-  self.vc = [[MKFilesStatusWindowController alloc] initWithWindowNibName:@"MKFilesStatusWindowController"];
-  self.vc.modifiedFiles = self.filesStatusService.allModifiedFiles;
+- (void)modifiedFilesMenuDidSelectShowMoreMenuItem:(MKModifiedFilesStatusMenu *)modifiedFilesMenu
+{
+  self.modifiedFilesStatusTableViewController = [[MKModifiedFilesStatusTableWindowController alloc] initWithWindowNibName:@"MKModifiedFilesStatusTableWindowController"];
+  self.modifiedFilesStatusTableViewController.modifiedFiles = self.sortedModifiedFiles;
   
-  NSWindow *wd = [[NSWindow alloc] init];
-  CGRect fr = [NSApp mainWindow].contentView.bounds;
-  fr.size.width -= 0.35 * fr.size.width;
-  fr.size.height -= 0.25 * fr.size.height;
-  
-  fr.origin = CGPointMake(0,0);
-  [wd setFrame:NSRectFromCGRect(fr) display:YES];
-  
-  self.vc.window.contentView.frame = wd.contentView.bounds;
-  self.vc.parentWindow = wd;
-  
-  [wd.contentView addSubview:self.vc.window.contentView];
-  [[NSApp mainWindow] beginSheet:wd completionHandler:nil];
+  [[MKWindowPresenter sharedPresenter] presentViewControllerAsSheet:self.modifiedFilesStatusTableViewController withSize:MKSheetSizeLarge];
 }
 
 @end

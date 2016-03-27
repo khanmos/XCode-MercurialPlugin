@@ -16,7 +16,8 @@ typedef NS_ENUM(NSUInteger, MKMercurialFileState) {
     MKMercurialFileStateModified = 3,
     MKMercurialFileStateConflicted = 4,
     MKMercurialFileStateDeleted = 5,
-    MKMercurialFileStateRenamed = 6
+    MKMercurialFileStateRenamed = 6,
+    MKMercurialFileStateMoved = 7
 };
 
 extern MKMercurialFileState MercurialStateFromChar(char c);

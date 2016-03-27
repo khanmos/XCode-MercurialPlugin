@@ -25,6 +25,8 @@ MKMercurialFileState MercurialStateFromChar(char c) {
       return MKMercurialFileStateDeleted;
     case 'R':
       return MKMercurialFileStateRenamed;
+    case 'V':
+      return MKMercurialFileStateMoved;
     default:
       return MKMercurialFileStateUnknown;
   }
@@ -44,6 +46,8 @@ char MercurialCharFromState(MKMercurialFileState s) {
       return 'D';
     case MKMercurialFileStateRenamed:
       return 'R';
+    case MKMercurialFileStateMoved:
+      return 'V';
     default:
       return '-';
   }

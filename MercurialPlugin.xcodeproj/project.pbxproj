@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E72B18131C85823F006A9B84 /* MKMercurialMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E72B18121C85823F006A9B84 /* MKMercurialMenuItem.m */; };
+		E7060A231CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m */; };
+		E7060A271CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */; };
+		E724CD9B1C9C92C9000F767D /* MKWindowPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E724CD9A1C9C92C9000F767D /* MKWindowPresenter.m */; };
 		E73DACE91C8413FD007F2046 /* MKXCodeNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */; };
 		E7577A391C73F6A600B2A407 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7577A381C73F6A600B2A407 /* OCMock.framework */; };
 		E78432F81C76967300304047 /* MKMercurialCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E78432F71C76967300304047 /* MKMercurialCommand.m */; };
@@ -33,17 +35,22 @@
 		E7A4A8391C6C6AE400E41806 /* MKMercurialFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8251C6C600600E41806 /* MKMercurialFile.m */; };
 		E7A4A83D1C6DA31A00E41806 /* MKFilesStatusService.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A83C1C6DA31A00E41806 /* MKFilesStatusService.m */; };
 		E7A4A8411C6DA5B100E41806 /* MKContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8401C6DA5B100E41806 /* MKContext.m */; };
-		E7A9A8A41C86BC6D00FFAC16 /* MKMercurialMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E72B18121C85823F006A9B84 /* MKMercurialMenuItem.m */; };
-		E7A9A8A51C86BC7900FFAC16 /* MKFilesStatusWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C9AA1C1C7D1A4800010B46 /* MKFilesStatusWindowController.m */; };
+		E7A4E1E81C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m */; };
+		E7A9A8A51C86BC7900FFAC16 /* MKModifiedFilesStatusTableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C9AA1C1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m */; };
 		E7A9A8A61C86D7CA00FFAC16 /* MKXCodeNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */; };
 		E7A9A8A81C86D87C00FFAC16 /* MKMercurialFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A9A8A71C86D87C00FFAC16 /* MKMercurialFileTests.m */; };
-		E7C9AA1E1C7D1A4800010B46 /* MKFilesStatusWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C9AA1C1C7D1A4800010B46 /* MKFilesStatusWindowController.m */; };
-		E7C9AA1F1C7D1A4800010B46 /* MKFilesStatusWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C9AA1D1C7D1A4800010B46 /* MKFilesStatusWindowController.xib */; };
+		E7C9AA1E1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C9AA1C1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m */; };
+		E7C9AA1F1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C9AA1D1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib */; };
+		E7E232DA1C9A558900C635A7 /* MKModifiedFilesStatusMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E72B18111C85823F006A9B84 /* MKMercurialMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMercurialMenuItem.h; sourceTree = "<group>"; };
-		E72B18121C85823F006A9B84 /* MKMercurialMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMercurialMenuItem.m; sourceTree = "<group>"; };
+		E7060A211CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusTableDataSource.h; sourceTree = "<group>"; };
+		E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusTableDataSource.m; sourceTree = "<group>"; };
+		E7060A251CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusActionCellView.h; sourceTree = "<group>"; };
+		E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusActionCellView.m; sourceTree = "<group>"; };
+		E724CD991C9C92C9000F767D /* MKWindowPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKWindowPresenter.h; sourceTree = "<group>"; };
+		E724CD9A1C9C92C9000F767D /* MKWindowPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKWindowPresenter.m; sourceTree = "<group>"; };
 		E73DACE11C82DBA6007F2046 /* MKNotificationConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKNotificationConstants.h; sourceTree = "<group>"; };
 		E73DACE71C8413FD007F2046 /* MKXCodeNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKXCodeNavigator.h; sourceTree = "<group>"; };
 		E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKXCodeNavigator.m; sourceTree = "<group>"; };
@@ -78,11 +85,15 @@
 		E7A4A83C1C6DA31A00E41806 /* MKFilesStatusService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKFilesStatusService.m; sourceTree = "<group>"; };
 		E7A4A83F1C6DA5B100E41806 /* MKContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKContext.h; sourceTree = "<group>"; };
 		E7A4A8401C6DA5B100E41806 /* MKContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKContext.m; sourceTree = "<group>"; };
+		E7A4E1E61C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesMenuItemsDataSource.h; sourceTree = "<group>"; };
+		E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesMenuItemsDataSource.m; sourceTree = "<group>"; };
 		E7A9A8A71C86D87C00FFAC16 /* MKMercurialFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMercurialFileTests.m; sourceTree = "<group>"; };
 		E7A9A8A91C875C1600FFAC16 /* MKConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKConstants.h; sourceTree = "<group>"; };
-		E7C9AA1B1C7D1A4800010B46 /* MKFilesStatusWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKFilesStatusWindowController.h; sourceTree = "<group>"; };
-		E7C9AA1C1C7D1A4800010B46 /* MKFilesStatusWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKFilesStatusWindowController.m; sourceTree = "<group>"; };
-		E7C9AA1D1C7D1A4800010B46 /* MKFilesStatusWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKFilesStatusWindowController.xib; sourceTree = "<group>"; };
+		E7C9AA1B1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusTableWindowController.h; sourceTree = "<group>"; };
+		E7C9AA1C1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusTableWindowController.m; sourceTree = "<group>"; };
+		E7C9AA1D1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKModifiedFilesStatusTableWindowController.xib; sourceTree = "<group>"; };
+		E7E232D81C9A558900C635A7 /* MKModifiedFilesStatusMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusMenu.h; sourceTree = "<group>"; };
+		E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,14 +117,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E73DACDF1C82C644007F2046 /* FileStatus */ = {
+		E7060A241CA74EBB0069D4ED /* ActionCell */ = {
 			isa = PBXGroup;
 			children = (
-				E7C9AA1B1C7D1A4800010B46 /* MKFilesStatusWindowController.h */,
-				E7C9AA1C1C7D1A4800010B46 /* MKFilesStatusWindowController.m */,
-				E7C9AA1D1C7D1A4800010B46 /* MKFilesStatusWindowController.xib */,
+				E7060A251CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.h */,
+				E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */,
 			);
-			name = FileStatus;
+			name = ActionCell;
+			sourceTree = "<group>";
+		};
+		E724CD981C9C92B7000F767D /* WindowPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				E724CD991C9C92C9000F767D /* MKWindowPresenter.h */,
+				E724CD9A1C9C92C9000F767D /* MKWindowPresenter.m */,
+			);
+			name = WindowPresenter;
+			sourceTree = "<group>";
+		};
+		E73DACDF1C82C644007F2046 /* ModifiedFilesStatusTable */ = {
+			isa = PBXGroup;
+			children = (
+				E7060A241CA74EBB0069D4ED /* ActionCell */,
+				E7C9AA1B1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.h */,
+				E7C9AA1C1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m */,
+				E7C9AA1D1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib */,
+				E7060A211CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.h */,
+				E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m */,
+			);
+			name = ModifiedFilesStatusTable;
 			sourceTree = "<group>";
 		};
 		E73DACE01C82DB87007F2046 /* Common */ = {
@@ -156,18 +188,21 @@
 			name = ShellCommand;
 			sourceTree = "<group>";
 		};
-		E784331E1C7AD7B000304047 /* Menu */ = {
+		E784331E1C7AD7B000304047 /* ModifiedFilesStatus */ = {
 			isa = PBXGroup;
 			children = (
-				E72B18111C85823F006A9B84 /* MKMercurialMenuItem.h */,
-				E72B18121C85823F006A9B84 /* MKMercurialMenuItem.m */,
+				E7E232D81C9A558900C635A7 /* MKModifiedFilesStatusMenu.h */,
+				E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */,
+				E7A4E1E51C8AC267006B9F50 /* DataSource */,
 			);
-			name = Menu;
+			name = ModifiedFilesStatus;
 			sourceTree = "<group>";
 		};
 		E78433271C7CEB2900304047 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E724CD981C9C92B7000F767D /* WindowPresenter */,
+				E7A4E1E91C8AC4E3006B9F50 /* Views */,
 				E78433291C7CEB3900304047 /* WindowControllers */,
 			);
 			name = UI;
@@ -176,7 +211,7 @@
 		E78433291C7CEB3900304047 /* WindowControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E73DACDF1C82C644007F2046 /* FileStatus */,
+				E73DACDF1C82C644007F2046 /* ModifiedFilesStatusTable */,
 			);
 			name = WindowControllers;
 			sourceTree = "<group>";
@@ -238,8 +273,8 @@
 			children = (
 				E73DACE01C82DB87007F2046 /* Common */,
 				E7A4A83E1C6DA59100E41806 /* Context */,
-				E7A4A8231C6C5FD900E41806 /* Files */,
-				E784331E1C7AD7B000304047 /* Menu */,
+				E7A4A8231C6C5FD900E41806 /* MercurialFile */,
+				E784331E1C7AD7B000304047 /* ModifiedFilesStatus */,
 				E73DACE21C8390CE007F2046 /* MenuItemsController */,
 				E7A4A8211C6C5E6100E41806 /* Parsers */,
 				E79686141C80C323009B1139 /* Resources */,
@@ -275,13 +310,13 @@
 			name = Parsers;
 			sourceTree = "<group>";
 		};
-		E7A4A8231C6C5FD900E41806 /* Files */ = {
+		E7A4A8231C6C5FD900E41806 /* MercurialFile */ = {
 			isa = PBXGroup;
 			children = (
 				E7A4A8241C6C600600E41806 /* MKMercurialFile.h */,
 				E7A4A8251C6C600600E41806 /* MKMercurialFile.m */,
 			);
-			name = Files;
+			name = MercurialFile;
 			sourceTree = "<group>";
 		};
 		E7A4A82F1C6C646900E41806 /* MercurialPluginTests */ = {
@@ -311,6 +346,22 @@
 				E7A4A8401C6DA5B100E41806 /* MKContext.m */,
 			);
 			name = Context;
+			sourceTree = "<group>";
+		};
+		E7A4E1E51C8AC267006B9F50 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				E7A4E1E61C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.h */,
+				E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m */,
+			);
+			name = DataSource;
+			sourceTree = "<group>";
+		};
+		E7A4E1E91C8AC4E3006B9F50 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -391,7 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7A4A8111C6BF39100E41806 /* MercurialPlugin.xcscheme in Resources */,
-				E7C9AA1F1C7D1A4800010B46 /* MKFilesStatusWindowController.xib in Resources */,
+				E7C9AA1F1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,13 +461,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7A4A8261C6C600600E41806 /* MKMercurialFile.m in Sources */,
-				E7C9AA1E1C7D1A4800010B46 /* MKFilesStatusWindowController.m in Sources */,
+				E7060A271CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m in Sources */,
+				E7C9AA1E1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m in Sources */,
 				E78433081C77F47E00304047 /* MKDiffSnippet.m in Sources */,
 				E73DACE91C8413FD007F2046 /* MKXCodeNavigator.m in Sources */,
+				E7060A231CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m in Sources */,
 				E78433211C7AD7DA00304047 /* MKMercurialMenuItemsController.m in Sources */,
 				E7A4A8201C6C100100E41806 /* MKShellCommand.m in Sources */,
+				E724CD9B1C9C92C9000F767D /* MKWindowPresenter.m in Sources */,
+				E7A4E1E81C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m in Sources */,
+				E7E232DA1C9A558900C635A7 /* MKModifiedFilesStatusMenu.m in Sources */,
 				E78432F81C76967300304047 /* MKMercurialCommand.m in Sources */,
-				E72B18131C85823F006A9B84 /* MKMercurialMenuItem.m in Sources */,
 				E7A4A8411C6DA5B100E41806 /* MKContext.m in Sources */,
 				E7A4A83D1C6DA31A00E41806 /* MKFilesStatusService.m in Sources */,
 				E7A4A8141C6BF39100E41806 /* MercurialPlugin.m in Sources */,
@@ -431,11 +486,10 @@
 			files = (
 				E7A239C41C73954F00BDB947 /* MKModifiedFilesServiceTests.m in Sources */,
 				E78433091C77F47F00304047 /* MKDiffSnippet.m in Sources */,
-				E7A9A8A41C86BC6D00FFAC16 /* MKMercurialMenuItem.m in Sources */,
 				E78433221C7AD7DB00304047 /* MKMercurialMenuItemsController.m in Sources */,
 				E7A4A8391C6C6AE400E41806 /* MKMercurialFile.m in Sources */,
 				E7A9A8A61C86D7CA00FFAC16 /* MKXCodeNavigator.m in Sources */,
-				E7A9A8A51C86BC7900FFAC16 /* MKFilesStatusWindowController.m in Sources */,
+				E7A9A8A51C86BC7900FFAC16 /* MKModifiedFilesStatusTableWindowController.m in Sources */,
 				E78432F91C76967400304047 /* MKMercurialCommand.m in Sources */,
 				E7A9A8A81C86D87C00FFAC16 /* MKMercurialFileTests.m in Sources */,
 				E7A239C71C7395F900BDB947 /* MKShellCommand.m in Sources */,

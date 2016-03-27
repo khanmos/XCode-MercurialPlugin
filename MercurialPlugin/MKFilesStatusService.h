@@ -15,8 +15,6 @@ typedef void (^MKFileRevertedOnComplete)(BOOL success);
 
 @interface MKFilesStatusService : NSObject
 
-@property (nonatomic, strong, readonly) NSArray<MKMercurialFile *> *allModifiedFiles;
-
 - (instancetype) initWithParser:(MKFileStatusParser*)fileStateParser;
 
 - (void) findAllModifiedFilesWithCompletion:(MKFilesStatusOnComplete)onComplete;

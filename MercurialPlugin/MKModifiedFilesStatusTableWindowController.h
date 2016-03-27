@@ -8,9 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MKMercurialFile.h"
-//#import "MKXCodeNavigator.h"
 
-@interface MKFilesStatusWindowController : NSWindowController
+@interface MKModifiedFilesStatusTableWindowController : NSWindowController
 
 @property (nonatomic, strong) NSArray* modifiedFiles;
 

@@ -18,6 +18,4 @@
 
 - (void) updateModifiedFiles;
 
-- (void) setModifiedFilesStatus:(NSArray <MKMercurialFile*>*)files;
-
 @end
