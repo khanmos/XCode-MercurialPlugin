@@ -1,14 +1,10 @@
-//
-//  MKModifiedFilesStatusTableDataSource.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 3/26/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MKMercurialFile.h"
-#import "MKModifiedFilesStatusTableDataSource.h"
 #import "MKModifiedFilesStatusActionCellView.h"
+#import "MKModifiedFilesStatusTableDelegate.h"
+
+CGFloat kDesiredHeightOfRow = 25.0;
 
 NSString * const kMKModifiedFilesStatusTableColumnFile = @"file";
 NSString * const kMKModifiedFilesStatusTableColumnStatus = @"status";
@@ -18,24 +14,24 @@ NSString * const kMKModifiedFilesStatusTableColumnFileReuseId = @"FileNameCellID
 NSString * const kMKModifiedFilesStatusTableColumnStatusReuseId = @"StatusCellID";
 NSString * const kMKModifiedFilesStatusTableColumnActionReuseId = @"ActionButtonCellID";
 
-@interface MKModifiedFilesStatusTableDataSource ()
+@interface MKModifiedFilesStatusTableDelegate ()
 
 @property (nonatomic, weak) id<MKModifiedFilesStatusActionHandlerDelegate> actionHandler;
 
 @end
 
-@implementation MKModifiedFilesStatusTableDataSource
+@implementation MKModifiedFilesStatusTableDelegate
 
-- (instancetype)initWithActionHandler:(id<MKModifiedFilesStatusActionHandlerDelegate>)
-actionHandler
+- (instancetype)initWithModifiedFiles:(NSArray *)modifiedFiles;
 {
   if (self = [super init]) {
-    _actionHandler = actionHandler;
+    _modifiedFiles = modifiedFiles;
   }
   return self;
 }
 
-#pragma mark - NPrivate
+#pragma mark - Private
+
 - (NSString *)_buttonTitleForFileState:(MKMercurialFileState)fileState
 {
   switch (fileState) {
@@ -62,16 +58,17 @@ actionHandler
   }
 }
 
-#pragma mark - NSTableViewDataSource
+#pragma mark - NSTableViewDelegate
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-  return self.modifiedFiles.count;
+- (CGFloat) tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+{
+  return kDesiredHeightOfRow;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
    viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row {
-  
+                  row:(NSInteger)row
+{
   MKMercurialFile *file = (MKMercurialFile*)self.modifiedFiles[row];
   NSString *cellId;
   NSString *cellTitleText;
@@ -90,44 +87,68 @@ actionHandler
     buttonTitle = [self _buttonTitleForFileState:file.state];
   }
   
-  NSTableCellView *cell = (NSTableCellView*)[tableView makeViewWithIdentifier:cellId owner:nil];
+  NSTableCellView *cell = (NSTableCellView*)[tableView makeViewWithIdentifier:cellId owner:self];
   
   if (cell) {
     if (!isActionButtonColumn){
       cell.textField.stringValue = cellTitleText;
     } else {
       MKModifiedFilesStatusActionCellView *buttonCellView = (MKModifiedFilesStatusActionCellView *)cell;
-      
+      buttonCellView.fileIndex = row;
       buttonCellView.actionButton.title = [self _buttonTitleForFileState:file.state];
       buttonCellView.actionButton.action = [self _actionForButtonWithFileState:file.state];
       buttonCellView.actionButton.target = self;
-      buttonCellView.actionButton.tag = row;
     }
     return cell;
   }
   return nil;
 }
 
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+  return NO;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
+{
+  return NO;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView shouldReorderColumn:(NSInteger)columnIndex toColumn:(NSInteger)newColumnIndex
+{
+  // We only want the file name column to be resizable
+  return columnIndex == 0;
+}
+
 #pragma mark - Action Handler
+
 - (void)didPerformRevertAction:(id)sender
 {
-  NSButton *tappedButton = (NSButton *)sender;
-  MKMercurialFile *file = self.modifiedFiles[tappedButton.tag];
-  [self.actionDelegate didPerformRevertActionForFile:file];
+  [self.actionDelegate didPerformRevertActionOnFile:[self _modifiedFileAtIndexOfTappedButton:sender]];
 }
 
 - (void)didPerformDeleteAction:(id)sender
 {
-  NSButton *tappedButton = (NSButton *)sender;
-  MKMercurialFile *file = self.modifiedFiles[tappedButton.tag];
-  [self.actionDelegate didPerformDeleteActionForFile:file];
+  [self.actionDelegate didPerformDeleteActionOnFile:[self _modifiedFileAtIndexOfTappedButton:sender]];
 }
 
 - (void)didPerformResolveAction:(id)sender
 {
-  NSButton *tappedButton = (NSButton *)sender;
-  MKMercurialFile *file = self.modifiedFiles[tappedButton.tag];
-  [self.actionDelegate didPerformResolveActionForFile:file];
+  [self.actionDelegate didPerformResolveActionOnFile:[self _modifiedFileAtIndexOfTappedButton:sender]];
+}
+
+#pragma mark - Private
+
+- (MKMercurialFile *)_modifiedFileAtIndexOfTappedButton:(NSButton *)button
+{
+  if ([button.superview isKindOfClass:[MKModifiedFilesStatusActionCellView class]]) {
+    MKModifiedFilesStatusActionCellView *containerCellView = (MKModifiedFilesStatusActionCellView *)button.superview;
+
+    if (containerCellView.fileIndex < self.modifiedFiles.count) {
+      return self.modifiedFiles[containerCellView.fileIndex];
+    }
+  }
+  return nil;
 }
 
 @end

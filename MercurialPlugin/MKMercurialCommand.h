@@ -1,10 +1,4 @@
-//
-//  MKMercurialCommand.h
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/18/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MKShellCommand.h"
 #import "MKMercurialFile.h"
@@ -12,6 +6,8 @@
 typedef NS_ENUM(NSUInteger, MKMercurialCommandType) {
     MKMercurialCommandTypeFilesStatus,
     MKMercurialCommandTypeRevertFileToLastCommit,
+    MKMercurialCommandTypeDeleteFile,
+    MKMercurialCommandTypeMarkFileAsResolved,
     MKMercurialCommandTypeFilesDiff
 };
 

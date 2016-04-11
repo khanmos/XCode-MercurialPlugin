@@ -1,10 +1,4 @@
-//
-//  MKWindowPresenter.h
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 3/18/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>

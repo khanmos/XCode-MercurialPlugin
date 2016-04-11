@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MKModifiedFilesStatusTableWindowController">
             <connections>
+                <outlet property="modifiedFilesTableView" destination="Qro-BF-6Xx" id="jBY-cc-rbD"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -139,7 +140,7 @@
                                                     <rect key="frame" x="407" y="1" width="100" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <button verticalHuggingPriority="750" tag="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8mU-9z-MF0">
+                                                        <button identifier="actionButton" verticalHuggingPriority="750" tag="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8mU-9z-MF0">
                                                             <rect key="frame" x="4" y="-7" width="92" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="80" id="fWf-hz-RTN"/>
@@ -148,10 +149,6 @@
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
-                                                            <connections>
-                                                                <action selector="didTapRevertButton:" target="-2" id="YoK-Bc-VVP"/>
-                                                                <binding destination="GL5-bQ-mmM" name="argument" keyPath="objectValue.actionButton" id="t3S-Jc-mWG"/>
-                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <constraints>
@@ -159,14 +156,15 @@
                                                         <constraint firstItem="8mU-9z-MF0" firstAttribute="centerX" secondItem="GL5-bQ-mmM" secondAttribute="centerX" id="BhE-yU-OoN"/>
                                                         <constraint firstItem="8mU-9z-MF0" firstAttribute="centerY" secondItem="GL5-bQ-mmM" secondAttribute="centerY" id="rIy-b2-Q8O"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <outlet property="actionButton" destination="8mU-9z-MF0" id="K9R-zM-YVg"/>
+                                                    </connections>
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <action trigger="doubleAction" selector="didDoubleClick:" target="-2" id="d4t-Av-qr7"/>
-                                        <outlet property="dataSource" destination="-2" id="ycD-nN-iad"/>
-                                        <outlet property="delegate" destination="-2" id="Hwl-kn-bhF"/>
+                                        <action trigger="doubleAction" selector="didDoubleClickOnTableRow:" target="-2" id="Bne-GY-rja"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -184,9 +182,6 @@
                             <rect key="frame" x="0.0" y="0.0" width="509" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
-                        <connections>
-                            <binding destination="-2" name="hidden" keyPath="self.modifiedFilesTableView" id="ZQo-UL-6eY"/>
-                        </connections>
                     </scrollView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZD0-z8-cnV">
                         <rect key="frame" x="392" y="13" width="75" height="32"/>

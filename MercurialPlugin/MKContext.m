@@ -1,13 +1,9 @@
-//
-//  MKContext.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/11/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
+
+#import <AppKit/AppKit.h>
 
 #import "MKContext.h"
-#import <AppKit/AppKit.h>
+#import "MKXCodeNavigator.h"
 
 @interface MKContext ()
 
@@ -21,35 +17,23 @@
 
 + (MKContext*) currentContext {
   static MKContext *ctx;
-  
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     ctx = [[MKContext alloc] init];
   });
-  
   return ctx;
 }
 
-- (void) setup {
-  
-  MKContext *ctx = [MKContext currentContext];
-  
-  ctx.userName = NSUserName();
-  ctx.userHome = NSHomeDirectory();
-  
-  NSArray *workspaceWindowControllers = [NSClassFromString(@"IDEWorkspaceWindowController") valueForKey:@"workspaceWindowControllers"];
-  
-  id workSpace;
-  
-  for (id controller in workspaceWindowControllers) {
-    if ([[controller valueForKey:@"window"] isEqual:[NSApp keyWindow]]) {
-      workSpace = [controller valueForKey:@"_workspace"];
-    }
+- (instancetype)init
+{
+  if (self = [super init]) {
+    self.userName = NSUserName();
+    self.userHome = NSHomeDirectory();
+    id workSpace = [MKXCodeNavigator currentWorkspace];
+    NSString *workspacePath = [[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
+    self.projectPath = [workspacePath stringByDeletingLastPathComponent];
   }
-  
-  NSString *workspacePath = [[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
-  
-  ctx.projectPath = [workspacePath stringByDeletingLastPathComponent];
+  return self;
 }
 
 @end

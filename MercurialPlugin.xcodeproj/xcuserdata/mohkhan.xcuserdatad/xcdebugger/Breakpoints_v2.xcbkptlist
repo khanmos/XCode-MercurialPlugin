@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MercurialPlugin/MKMercurialMenuItemsController.m"
-            timestampString = "480729888.257781"
+            filePath = "MercurialPlugin/MKModifiedFilesStatusTableDataSource.m"
+            timestampString = "480737595.886018"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-handleModifiedFilesFound:"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "-tableView:viewForTableColumn:row:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

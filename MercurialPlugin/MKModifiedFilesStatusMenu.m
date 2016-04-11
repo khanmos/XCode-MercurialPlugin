@@ -1,10 +1,5 @@
-//
-//  MKModifiedFilesMenu.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 3/16/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
+
 #import <objc/runtime.h>
 #import <Cocoa/Cocoa.h>
 
@@ -116,6 +111,7 @@ static NSMenuItem *s_moreMenuItem;
 }
 
 #pragma mark - Dispatch helpers
+
 - (void)_dispatchAsyncOnMenuItemsQueue:(void(^)())block
 {
   if (block) {
@@ -124,6 +120,7 @@ static NSMenuItem *s_moreMenuItem;
 }
 
 #pragma mark - Private
+
 - (void)_removeCurrentModifiedMenuItemsWithCompletion:(void(^)())onComplete
 {
   if (self.currentModifiedFilesMenuItems.count > 0) {
@@ -170,5 +167,19 @@ static NSMenuItem *s_moreMenuItem;
 }
 
 #pragma mark - Public
+
+- (NSMenuItem *)menuItemAtIndex:(NSInteger)index
+{
+  if (index < self.currentModifiedFilesMenuItems.count) {
+    return self.currentModifiedFilesMenuItems[index];
+  }
+  return nil;
+}
+
+- (NSInteger)indexOfMenuItem:(NSMenuItem *)menuItem
+{
+  NSInteger menuItemIndex = [self.currentModifiedFilesMenuItems indexOfObject:menuItem];
+  return menuItemIndex;
+}
 
 @end

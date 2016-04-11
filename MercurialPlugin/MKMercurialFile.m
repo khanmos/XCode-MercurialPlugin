@@ -1,10 +1,4 @@
-//
-//  MKMercurialFile.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/10/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MKMercurialFile.h"
 
@@ -50,24 +44,6 @@ char MercurialCharFromState(MKMercurialFileState s) {
       return 'V';
     default:
       return '-';
-  }
-}
-
-NSColor *MercurialColorFromState(MKMercurialFileState s) {
-  switch (s) {
-    case MKMercurialFileStateUntracked:
-      return [NSColor grayColor];
-    case MKMercurialFileStateAdded:
-      return [NSColor blueColor];
-    case MKMercurialFileStateModified:
-      return [NSColor greenColor];
-    case MKMercurialFileStateConflicted:
-      return [NSColor yellowColor];
-    case MKMercurialFileStateDeleted:
-         MKMercurialFileStateRenamed:
-      return [NSColor redColor];
-    default:
-      return [NSColor blackColor];
   }
 }
 

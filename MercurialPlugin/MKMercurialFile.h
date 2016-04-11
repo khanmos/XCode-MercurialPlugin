@@ -1,10 +1,4 @@
-//
-//  MKMercurialFile.h
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/10/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
@@ -22,7 +16,6 @@ typedef NS_ENUM(NSUInteger, MKMercurialFileState) {
 
 extern MKMercurialFileState MercurialStateFromChar(char c);
 extern char MercurialCharFromState(MKMercurialFileState s);
-extern NSColor *MercurialColorFromState(MKMercurialFileState s);
 
 @interface MKMercurialFile : NSObject
 

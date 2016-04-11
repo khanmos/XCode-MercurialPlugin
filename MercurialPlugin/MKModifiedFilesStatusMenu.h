@@ -1,10 +1,4 @@
-//
-//  MKModifiedFilesMenu.h
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 3/16/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
@@ -43,6 +37,9 @@
 
 @end
 
+/*
+ "Source Control" submenus manager.
+ */
 @interface MKModifiedFilesStatusMenu : NSObject
 
 @property (nonatomic, weak) id<MKModifiedFilesStatusMenuDataSource> dataSource;

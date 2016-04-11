@@ -1,62 +1,66 @@
-//
-//  MKFilesStatusWindowController.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/23/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
-#import "MKModifiedFilesStatusTableWindowController.h"
+#import "MKAlertCoordinator.h"
+#import "MKContext.h"
 #import "MKMercurialFile.h"
+#import "MKModifiedFilesStatusTableDelegate.h"
+#import "MKModifiedFilesStatusTableWindowController.h"
 #import "MKNotificationConstants.h"
 #import "MKXCodeNavigator.h"
-#import "MKContext.h"
-#import "MKModifiedFilesStatusTableDataSource.h"
+
+NSString *kDestructiveInformativeText = @"Cannot be undone.";
+
+typedef void(^MKReloadModifiedFilesStatusTableOnMainThread)(BOOL success);
 
 @interface MKModifiedFilesStatusTableWindowController ()
 <
 NSTableViewDataSource,
-NSTableViewDelegate,
 MKModifiedFilesStatusActionHandlerDelegate
 >
 
 @property (weak) IBOutlet NSTableView *modifiedFilesTableView;
-@property (nonatomic, weak) MKModifiedFilesStatusTableDataSource *dataSource;
+@property (nonatomic, strong) MKModifiedFilesStatusTableDelegate *modifiedFilesTableDelegate;
+@property (nonatomic, strong) MKReloadModifiedFilesStatusTableOnMainThread reloadTableOnMainThreadBlock;
 
 @end
 
 @implementation MKModifiedFilesStatusTableWindowController
 
-- (void)windowDidLoad {
+#pragma View Controller Lifecycle
+
+- (void)windowDidLoad
+{
   [super windowDidLoad];
-  MKModifiedFilesStatusTableDataSource *dataSource = [[MKModifiedFilesStatusTableDataSource alloc] initWithActionHandler:self];
-  
-  self.dataSource = dataSource;
 }
 
 - (void) loadWindow
 {
   [super loadWindow];
-  self.modifiedFilesTableView.target = self;
-  self.modifiedFilesTableView.dataSource = self.dataSource;
-  
-  [self showModifiedStatus];
+  // Setup table view
+  self.modifiedFilesTableDelegate = [[MKModifiedFilesStatusTableDelegate alloc] initWithModifiedFiles:self.modifiedFiles];
+  self.modifiedFilesTableDelegate.actionDelegate = self;
+  self.modifiedFilesTableView.delegate = self.modifiedFilesTableDelegate;
+  self.modifiedFilesTableView.dataSource = self;
+
+  __weak typeof(self) weakSelf = self;
+  self.reloadTableOnMainThreadBlock = ^(BOOL success) {
+    if (success) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.modifiedFilesTableView reloadData];
+      });
+    }
+  };
 }
 
-- (IBAction)didTapCloseBtn:(id)sender {
-  if (self.parentWindow){
-    [[NSApp mainWindow] endSheet:self.parentWindow];
-  }
+#pragma mark - Action handlers
+
+- (IBAction)didTapCloseBtn:(id)sender
+{
+  [[NSApp mainWindow] endSheet:self.window.parentWindow];
 }
 
-- (void) showModifiedStatus {
-  if (self.modifiedFiles.count > 0){
-    [self.modifiedFilesTableView reloadData];
-  }
-}
-
-#pragma mark - Action handler
-- (IBAction)didDoubleClick:(id)sender {
+- (IBAction)didDoubleClickOnTableRow:(id)sender
+{
   NSTableView *tb = (NSTableView*)sender;
   NSInteger selectedRow = tb.selectedRow;
   
@@ -67,54 +71,61 @@ MKModifiedFilesStatusActionHandlerDelegate
   }
 }
 
-#pragma mark - NSTableViewDelegate
-
-- (CGFloat) tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-  return 25.0;
-}
-
-#pragma mark - Public
-- (void)applyFileRevertedChangesToView:(MKMercurialFile*)revertedFile {
-  if (self.modifiedFiles.count > 0){
-    
-    for(MKMercurialFile *file in self.modifiedFiles){
-      if (file == revertedFile){
-        self.modifiedFiles = [self.modifiedFiles subarrayWithRange:NSMakeRange(1, self.modifiedFiles.count-1)];
-        [self.modifiedFilesTableView reloadData];
-      }
-    }
-  }
-}
-
 #pragma mark - MKModifiedFilesStatusActionHandlerDelegate
-- (void)didPerformRevertActionForFile:(MKMercurialFile *)selectedFile
+
+- (void)didPerformRevertActionOnFile:(MKMercurialFile *)selectedFile
 {
   NSLog(@"Reverting %@", selectedFile.fileName);
-  
-  NSString *titleText = @"";
-  
-  NSAlert *alert = [[NSAlert alloc] init];
-  [alert addButtonWithTitle:@"OK"];
-  [alert addButtonWithTitle:@"Cancel"];
-  [alert setMessageText:[NSString stringWithFormat:@"Revert '%@' to last commit ?", selectedFile.fileName]];
-  [alert setInformativeText:@"Cannot be undone."];
-  [alert setAlertStyle:NSWarningAlertStyle];
-  NSModalResponse response = [alert runModal];
-  
-  if (response == NSModalResponseStop){
-    // Ok
-    [[NSNotificationCenter defaultCenter] postNotificationName:kRevertFileNotification object:self userInfo:@{kRevertFileNotificationFileNameParam:selectedFile}];
+  NSString *warningMessage = [NSString stringWithFormat:@"Revert '%@' to last commit ?", selectedFile.fileName];
+  [self _showConfirmationMessage:warningMessage andPerformOnConfirm:^{
+    [self.delegate modifiedFilesStatusTableController:self
+                                didRevertModifiedFile:selectedFile
+                                           onComplete:self.reloadTableOnMainThreadBlock];
+  }];
+}
+
+- (void)didPerformDeleteActionOnFile:(MKMercurialFile *)selectedFile
+{
+  NSLog(@"Deleting %@", selectedFile.fileName);
+  NSString *warningMessage = [NSString stringWithFormat:@"Delete '%@' ?", selectedFile.fileName];
+  [self _showConfirmationMessage:warningMessage andPerformOnConfirm:^{
+    [self.delegate modifiedFilesStatusTableController:self
+                                didDeleteModifiedFile:selectedFile
+                                           onComplete:self.reloadTableOnMainThreadBlock];
+  }];
+}
+
+- (void)didPerformResolveActionOnFile:(MKMercurialFile *)selectedFile
+{
+  NSLog(@"Resolving %@", selectedFile.fileName);
+  NSString *warningMessage = [NSString stringWithFormat:@"Mark '%@' as resolved ?", selectedFile.fileName];
+  [self _showConfirmationMessage:warningMessage andPerformOnConfirm:^{
+    [self.delegate modifiedFilesStatusTableController:self
+                               didResolveModifiedFile:selectedFile
+                                           onComplete:self.reloadTableOnMainThreadBlock];
+  }];
+}
+
+#pragma mark - NSTableViewDataSource
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+  return self.modifiedFiles.count;
+}
+
+#pragma mark - Private
+
+- (void)_showConfirmationMessage:(NSString *)confirmationMessage andPerformOnConfirm:(void(^)())onConfirmed
+{
+  BOOL confirm = [[MKAlertCoordinator sharedCoordinator] showAlertMessage:confirmationMessage
+                                                          informativeText:kDestructiveInformativeText
+                                                                    style:NSWarningAlertStyle
+                                                                 okButton:YES
+                                                             cancelButton:YES];
+
+  if (confirm) {
+    onConfirmed();
   }
-}
-
-- (void)didPerformDeleteActionForFile:(MKMercurialFile *)file
-{
-  
-}
-
-- (void)didPerformResolveActionForFile:(MKMercurialFile *)file
-{
-  
 }
 
 @end

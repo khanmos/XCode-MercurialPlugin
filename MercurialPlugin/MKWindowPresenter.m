@@ -1,10 +1,4 @@
-//
-//  MKWindowPresenter.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 3/18/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MKWindowPresenter.h"
 
@@ -41,7 +35,7 @@
   [wd setFrame:NSRectFromCGRect(fr) display:YES];
   
   windowController.window.contentView.frame = wd.contentView.bounds;
-  
+  windowController.window.parentWindow = wd;
   [wd.contentView addSubview:windowController.window.contentView];
   [[NSApp mainWindow] beginSheet:wd completionHandler:nil];
 }

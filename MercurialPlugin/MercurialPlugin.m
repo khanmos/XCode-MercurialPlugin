@@ -1,10 +1,4 @@
-//
-//  MercurialPlugin.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/10/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MercurialPlugin.h"
 
@@ -70,9 +64,7 @@ static NSString *kMKXCodeSourceControlScanNotification = @"IDESourceControlWillS
 
 #pragma mark - Notification Handlers
 - (void)handleProjectOpenNotification:(NSNotification *)notification {
-  [[MKContext currentContext] setup];
-  [[MKMercurialMenuItemsController mercurialMenuItemsController] initMercurialMenuItems];
-  
+  [[MKMercurialMenuItemsController mercurialMenuItemsController] initMercurialMenuItemsOnce];
   [self doTest];
 }
 
@@ -81,7 +73,7 @@ static NSString *kMKXCodeSourceControlScanNotification = @"IDESourceControlWillS
   
   // Check is user saved a file
   if ([menuItem.title isEqualToString:kMKIDEFileSaveOperation]){
-    [[MKMercurialMenuItemsController mercurialMenuItemsController] updateModifiedFiles];
+    [[MKMercurialMenuItemsController mercurialMenuItemsController] updateModifiedFilesWithCompletion:nil];
   }
 }
 

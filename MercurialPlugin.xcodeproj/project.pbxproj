@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E7060A231CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m */; };
+		E7060A231CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.m */; };
 		E7060A271CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */; };
 		E724CD9B1C9C92C9000F767D /* MKWindowPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E724CD9A1C9C92C9000F767D /* MKWindowPresenter.m */; };
 		E73DACE91C8413FD007F2046 /* MKXCodeNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */; };
@@ -42,11 +42,13 @@
 		E7C9AA1E1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C9AA1C1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m */; };
 		E7C9AA1F1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C9AA1D1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib */; };
 		E7E232DA1C9A558900C635A7 /* MKModifiedFilesStatusMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */; };
+		E7FF8FE51CB486F50062B35C /* MKAlertCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = E7FF8FE41CB486F50062B35C /* MKAlertCoordinator.m */; };
+		E7FF8FE61CB486F50062B35C /* MKAlertCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = E7FF8FE41CB486F50062B35C /* MKAlertCoordinator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E7060A211CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusTableDataSource.h; sourceTree = "<group>"; };
-		E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusTableDataSource.m; sourceTree = "<group>"; };
+		E7060A211CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusTableDelegate.h; sourceTree = "<group>"; };
+		E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusTableDelegate.m; sourceTree = "<group>"; };
 		E7060A251CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusActionCellView.h; sourceTree = "<group>"; };
 		E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusActionCellView.m; sourceTree = "<group>"; };
 		E724CD991C9C92C9000F767D /* MKWindowPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKWindowPresenter.h; sourceTree = "<group>"; };
@@ -94,6 +96,8 @@
 		E7C9AA1D1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKModifiedFilesStatusTableWindowController.xib; sourceTree = "<group>"; };
 		E7E232D81C9A558900C635A7 /* MKModifiedFilesStatusMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusMenu.h; sourceTree = "<group>"; };
 		E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusMenu.m; sourceTree = "<group>"; };
+		E7FF8FE31CB486F50062B35C /* MKAlertCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKAlertCoordinator.h; sourceTree = "<group>"; };
+		E7FF8FE41CB486F50062B35C /* MKAlertCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKAlertCoordinator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,8 +146,8 @@
 				E7C9AA1B1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.h */,
 				E7C9AA1C1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m */,
 				E7C9AA1D1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.xib */,
-				E7060A211CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.h */,
-				E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m */,
+				E7060A211CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.h */,
+				E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.m */,
 			);
 			name = ModifiedFilesStatusTable;
 			sourceTree = "<group>";
@@ -191,9 +195,9 @@
 		E784331E1C7AD7B000304047 /* ModifiedFilesStatus */ = {
 			isa = PBXGroup;
 			children = (
-				E7E232D81C9A558900C635A7 /* MKModifiedFilesStatusMenu.h */,
-				E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */,
 				E7A4E1E51C8AC267006B9F50 /* DataSource */,
+				E7B9A9111CA8D8FF00ED71F3 /* ModifiedFilesStatusMenu */,
+				E78433291C7CEB3900304047 /* WindowControllers */,
 			);
 			name = ModifiedFilesStatus;
 			sourceTree = "<group>";
@@ -203,7 +207,7 @@
 			children = (
 				E724CD981C9C92B7000F767D /* WindowPresenter */,
 				E7A4E1E91C8AC4E3006B9F50 /* Views */,
-				E78433291C7CEB3900304047 /* WindowControllers */,
+				E7FF8FE71CB486FA0062B35C /* AlertCoordinator */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -364,6 +368,24 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		E7B9A9111CA8D8FF00ED71F3 /* ModifiedFilesStatusMenu */ = {
+			isa = PBXGroup;
+			children = (
+				E7E232D81C9A558900C635A7 /* MKModifiedFilesStatusMenu.h */,
+				E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */,
+			);
+			name = ModifiedFilesStatusMenu;
+			sourceTree = "<group>";
+		};
+		E7FF8FE71CB486FA0062B35C /* AlertCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				E7FF8FE31CB486F50062B35C /* MKAlertCoordinator.h */,
+				E7FF8FE41CB486F50062B35C /* MKAlertCoordinator.m */,
+			);
+			name = AlertCoordinator;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -465,8 +487,9 @@
 				E7C9AA1E1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m in Sources */,
 				E78433081C77F47E00304047 /* MKDiffSnippet.m in Sources */,
 				E73DACE91C8413FD007F2046 /* MKXCodeNavigator.m in Sources */,
-				E7060A231CA741020069D4ED /* MKModifiedFilesStatusTableDataSource.m in Sources */,
+				E7060A231CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.m in Sources */,
 				E78433211C7AD7DA00304047 /* MKMercurialMenuItemsController.m in Sources */,
+				E7FF8FE51CB486F50062B35C /* MKAlertCoordinator.m in Sources */,
 				E7A4A8201C6C100100E41806 /* MKShellCommand.m in Sources */,
 				E724CD9B1C9C92C9000F767D /* MKWindowPresenter.m in Sources */,
 				E7A4E1E81C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m in Sources */,
@@ -485,6 +508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7A239C41C73954F00BDB947 /* MKModifiedFilesServiceTests.m in Sources */,
+				E7FF8FE61CB486F50062B35C /* MKAlertCoordinator.m in Sources */,
 				E78433091C77F47F00304047 /* MKDiffSnippet.m in Sources */,
 				E78433221C7AD7DB00304047 /* MKMercurialMenuItemsController.m in Sources */,
 				E7A4A8391C6C6AE400E41806 /* MKMercurialFile.m in Sources */,

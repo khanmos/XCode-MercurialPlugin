@@ -1,10 +1,4 @@
-//
-//  MKMercurialCommand.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/18/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MKMercurialCommand.h"
 #import "MKShellCommand.h"
@@ -15,6 +9,8 @@
 
 #define kMercurialStatusCommand @"st"
 #define kMercurialRevertCommand @"revert"
+#define kMercurialDeleteCommand @"rm"
+#define kMercurialResolveCommand @"resolve"
 
 
 @interface MKMercurialCommand ()
@@ -59,6 +55,10 @@
       return @[ kMercurialStatusCommand ];
     case MKMercurialCommandTypeRevertFileToLastCommit:
       return @ [ kMercurialRevertCommand ];
+    case MKMercurialCommandTypeDeleteFile:
+      return @[ kMercurialDeleteCommand ];
+    case MKMercurialCommandTypeMarkFileAsResolved:
+      return @[ kMercurialResolveCommand, @"-m" ];
     default:
       return @[];
   }

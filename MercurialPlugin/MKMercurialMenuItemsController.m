@@ -1,10 +1,4 @@
-//
-//  MKMercurialMenuItem.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/21/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MKMercurialMenuItemsController.h"
 #import "MKModifiedFilesStatusTableWindowController.h"
@@ -19,7 +13,11 @@
 static NSString * const kSourceControlMenuItemName = @"Source Control";
 static NSString * const kMercurialMenuItemName = @"Mercurial";
 
-@interface MKMercurialMenuItemsController () <MKModifiedFilesStatusMenuDelegate>
+@interface MKMercurialMenuItemsController ()
+<
+MKModifiedFilesStatusMenuDelegate,
+MKModifiedFilesStatusTableWindowControllerDelegate
+>
 
 @property (nonatomic, strong) NSArray<MKMercurialFile *> *sortedModifiedFiles;
 @property (nonatomic, strong) MKModifiedFilesStatusMenu *modifiedFilesMenu;
@@ -44,18 +42,19 @@ static NSString * const kMercurialMenuItemName = @"Mercurial";
   return oneMeuItem;
 }
 
-- (instancetype) init {
-  if (self = [super init]){
+- (instancetype) init
+{
+  if (self = [super init]) {
     self.filesStatusService = [[MKFilesStatusService alloc] initWithParser:[[MKFileStatusParser alloc] init]];
   }
   return self;
 }
 
-- (void) initMercurialMenuItems {
+- (void) initMercurialMenuItemsOnce {
   
   void (^proceed)() = ^{
     
-    [self updateModifiedFiles];
+    [self updateModifiedFilesWithCompletion:nil];
     
     // Add the main Mercurial menu
     NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:kSourceControlMenuItemName];
@@ -63,14 +62,12 @@ static NSString * const kMercurialMenuItemName = @"Mercurial";
     if (menuItem) {
       [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
       NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:kMercurialMenuItemName
-                                                              action:@selector(voidMethod:)
-                                                       keyEquivalent:@""];
+                                                              action:nil
+                                                       keyEquivalent:@"M"];
       
       [actionMenuItem setTarget:self];
       [[menuItem submenu] addItem:actionMenuItem];
-      
-      //[[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-      
+
       self.modifiedFilesMenu = [[MKModifiedFilesStatusMenu alloc] initWithMainMercurialMenu:actionMenuItem];
       self.menuItemsDataSource = [[MKModifiedFilesMenuItemsDataSource alloc] init];
       
@@ -83,15 +80,15 @@ static NSString * const kMercurialMenuItemName = @"Mercurial";
   dispatch_once(&onceToken, proceed);
 }
 
-- (void) updateModifiedFiles {
+- (void) updateModifiedFilesWithCompletion:(MKModifiedFilesUpdateComplete)completion {
   [self.filesStatusService findAllModifiedFilesWithCompletion:^(NSArray<MKMercurialFile *> *modifiedFiles) {
-    [self handleModifiedFilesFound:modifiedFiles];
+    [self handleModifiedFilesFound:modifiedFiles withCompletion:completion];
   }];
 }
 
-#pragma mark - Notification Handlers
+#pragma mark - Private
 
-- (void) handleModifiedFilesFound:(NSArray<MKMercurialFile *> *)allModifiedFiles
+- (void) handleModifiedFilesFound:(NSArray<MKMercurialFile *> *)allModifiedFiles withCompletion:(MKModifiedFilesUpdateComplete)completion
 {
   if (self.processingFilesStatus) {
     return;
@@ -107,32 +104,57 @@ static NSString * const kMercurialMenuItemName = @"Mercurial";
   
   self.menuItemsDataSource.modifiedFiles = self.sortedModifiedFiles;
   [self.modifiedFilesMenu reloadMenuItems];
-}
 
-- (void )handleRevertFileNotification:(NSNotification*) notification {
-  MKMercurialFile *fileToRevert = notification.userInfo[kRevertFileNotificationFileNameParam];
-  
-  [self.filesStatusService revertFile:fileToRevert onComplete:^(BOOL success) {
-    
-    [self.modifiedFilesStatusTableViewController applyFileRevertedChangesToView:fileToRevert];
-  }];
+  if (completion){
+    completion(self.sortedModifiedFiles);
+  }
 }
 
 #pragma mark - MKModifiedFilesMenuDelegate
 
-- (void)modifiedFilesMenu:(MKModifiedFilesStatusMenu *)modifiedFilesMenu didSelectMenuItemAtIndex:(NSInteger)index
+- (void)modifiedFilesStatusMenu:(MKModifiedFilesStatusMenu *)modifiedFilesMenu didSelectMenuItemAtIndex:(NSInteger)index
 {
   MKMercurialFile *selectedFile =
   self.sortedModifiedFiles[index];
   [MKXCodeNavigator openFileInEditorWithURL:[NSURL fileURLWithPath:selectedFile.filePath isDirectory:NO]];
 }
 
-- (void)modifiedFilesMenuDidSelectShowMoreMenuItem:(MKModifiedFilesStatusMenu *)modifiedFilesMenu
+- (void)modifiedFilesStatusMenuDidSelectShowMoreMenuItem:(MKModifiedFilesStatusMenu *)modifiedFilesMenu
 {
   self.modifiedFilesStatusTableViewController = [[MKModifiedFilesStatusTableWindowController alloc] initWithWindowNibName:@"MKModifiedFilesStatusTableWindowController"];
   self.modifiedFilesStatusTableViewController.modifiedFiles = self.sortedModifiedFiles;
+  self.modifiedFilesStatusTableViewController.delegate = self;
   
   [[MKWindowPresenter sharedPresenter] presentViewControllerAsSheet:self.modifiedFilesStatusTableViewController withSize:MKSheetSizeLarge];
+}
+
+#pragma mark - MKModifiedFilesStatusTableWindowControllerDelegate
+
+- (void)modifiedFilesStatusTableController:(MKModifiedFilesStatusTableWindowController *)modifiedFilesStatusTableController
+                     didRevertModifiedFile:(MKMercurialFile *)modifiedFile
+                                onComplete:(MKSourceControlActionCompleted)completion
+{
+  [self.filesStatusService revertFile:modifiedFile onComplete:^(BOOL success) {
+    completion(success);
+  }];
+}
+
+- (void)modifiedFilesStatusTableController:(MKModifiedFilesStatusTableWindowController *)modifiedFilesStatusTableController
+                    didResolveModifiedFile:(MKMercurialFile *)modifiedFile
+                                onComplete:(MKSourceControlActionCompleted)completion
+{
+  [self.filesStatusService markModifiedFileAsResolved:modifiedFile onComplete:^(BOOL success) {
+    completion(success);
+  }];
+}
+
+- (void)modifiedFilesStatusTableController:(MKModifiedFilesStatusTableWindowController *)modifiedFilesStatusTableController
+                     didDeleteModifiedFile:(MKMercurialFile *)modifiedFile
+                                onComplete:(MKSourceControlActionCompleted)completion
+{
+  [self.filesStatusService deleteFile:modifiedFile onComplete:^(BOOL success) {
+    completion(success);
+  }];
 }
 
 @end

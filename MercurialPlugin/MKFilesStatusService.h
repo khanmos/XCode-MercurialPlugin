@@ -1,17 +1,11 @@
-//
-//  MKModifiedFilesService.h
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/11/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import "MKFileStatusParser.h"
 #import "MKMercurialFile.h"
 
 typedef void (^MKFilesStatusOnComplete)(NSArray <MKMercurialFile *> *modifiedFiles);
-typedef void (^MKFileRevertedOnComplete)(BOOL success);
+typedef void (^MKFileOperationOnComplete)(BOOL success);
 
 @interface MKFilesStatusService : NSObject
 
@@ -19,6 +13,10 @@ typedef void (^MKFileRevertedOnComplete)(BOOL success);
 
 - (void) findAllModifiedFilesWithCompletion:(MKFilesStatusOnComplete)onComplete;
 
-- (void) revertFile:(MKMercurialFile*)file onComplete:(MKFileRevertedOnComplete)onComplete;
+- (void) revertFile:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete;
+
+- (void) deleteFile:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete;
+
+- (void) markModifiedFileAsResolved:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete;
 
 @end

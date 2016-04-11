@@ -1,10 +1,4 @@
-//
-//  MKModifiedFilesService.m
-//  MercurialPlugin
-//
-//  Created by Mohtashim Khan on 2/11/16.
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
-//
 
 #import "MKFilesStatusService.h"
 #import "MKFileStatusParser.h"
@@ -58,16 +52,49 @@
   }
 }
 
-- (void) revertFile:(MKMercurialFile*)file onComplete:(MKFileRevertedOnComplete)onComplete{
-  
+- (void) revertFile:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete
+{
   MKMercurialCommand *statusCmd = [MKMercurialCommand commandWithType:MKMercurialCommandTypeRevertFileToLastCommit arguments:@[ file.filePath ]];
-  
+
   [statusCmd runWithCompletion:^(NSString *output, NSError *error) {
     if (error && onComplete){
       onComplete(NO);
       return;
     }
-    
+
+    if (onComplete){
+      onComplete(YES);
+    }
+  }];
+}
+
+- (void) deleteFile:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete
+{
+  MKShellCommand *deleteCmd = [MKShellCommand commandWithName:@"/bin/rm"];
+
+  [deleteCmd executeWithArguments:@[ file.filePath ]
+                       onComplete:^(NSString *output, NSError *error) {
+                         if (error && onComplete){
+                           onComplete(NO);
+                           return;
+                         }
+                         
+                         if (onComplete){
+                           onComplete(YES);
+                         }
+                       }];
+}
+
+- (void) markModifiedFileAsResolved:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete
+{
+  MKMercurialCommand *statusCmd = [MKMercurialCommand commandWithType:MKMercurialCommandTypeMarkFileAsResolved arguments:@[ file.filePath ]];
+
+  [statusCmd runWithCompletion:^(NSString *output, NSError *error) {
+    if (error && onComplete){
+      onComplete(NO);
+      return;
+    }
+
     if (onComplete){
       onComplete(YES);
     }
