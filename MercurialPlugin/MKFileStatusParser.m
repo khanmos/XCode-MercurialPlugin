@@ -17,7 +17,7 @@
       char state = [trimmedLine characterAtIndex:0];
       MKMercurialFileState fileState = MercurialStateFromChar(state);
       
-      NSString *filePath = [trimmedLine substringFromIndex:2];
+      NSString *filePath = [trimmedLine substringFromIndex:4];
       NSString *fileName = [filePath lastPathComponent];
       
       [files addObject:[[MKMercurialFile alloc] initWithFileName:fileName path:filePath state:fileState]];

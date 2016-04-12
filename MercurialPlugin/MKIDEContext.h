@@ -2,12 +2,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MKContext : NSObject
+@interface MKIDEContext : NSObject
 
 @property (nonatomic, copy, readonly) NSString* userName;
 @property (nonatomic, copy, readonly) NSString* userHome;
 @property (nonatomic, copy, readonly) NSString* projectPath;
 
-+ (MKContext*) currentContext;
++ (MKIDEContext *) getCurrentIDEContext;
++ (void)destroyCurrentIDEContext;
 
 @end

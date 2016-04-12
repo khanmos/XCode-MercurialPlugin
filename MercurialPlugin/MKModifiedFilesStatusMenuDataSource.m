@@ -2,11 +2,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MKModifiedFilesMenuItemsDataSource.h"
+#import "MKModifiedFilesStatusMenuDataSource.h"
 
 const NSInteger kMaxNumberOfItemsVisible = 5;
 
-@implementation MKModifiedFilesMenuItemsDataSource
+@implementation MKModifiedFilesStatusMenuDataSource
 
 - (instancetype)initWithmModifiedFiles:(NSArray<MKMercurialFile *> *)modifiedFiles
 {

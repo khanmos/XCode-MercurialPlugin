@@ -2,7 +2,7 @@
 
 #import "MKFilesStatusService.h"
 #import "MKFileStatusParser.h"
-#import "MKContext.h"
+#import "MKIDEContext.h"
 #import "MKMercurialCommand.h"
 
 
@@ -32,11 +32,7 @@
 
 - (void) findAllModifiedFilesWithCompletion:(MKFilesStatusOnComplete)onComplete {
   
-  MKContext *ctx = [MKContext currentContext];
-  
-  //NSString *path = [NSString stringWithFormat:@"/Users/%@/fbsource/fbobjc/", ctx.userName];
-  //NSLog(@"PATH = %@", path);
-  
+  MKIDEContext *ctx = [MKIDEContext getCurrentIDEContext];
   NSString *projectPath = ctx.projectPath;
   
   if (projectPath){

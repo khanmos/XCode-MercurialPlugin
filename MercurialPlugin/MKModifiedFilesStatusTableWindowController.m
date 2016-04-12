@@ -1,7 +1,7 @@
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
 
 #import "MKAlertCoordinator.h"
-#import "MKContext.h"
+#import "MKIDEContext.h"
 #import "MKMercurialFile.h"
 #import "MKModifiedFilesStatusTableDelegate.h"
 #import "MKModifiedFilesStatusTableWindowController.h"
@@ -20,7 +20,7 @@ MKModifiedFilesStatusActionHandlerDelegate
 
 @property (weak) IBOutlet NSTableView *modifiedFilesTableView;
 @property (nonatomic, strong) MKModifiedFilesStatusTableDelegate *modifiedFilesTableDelegate;
-@property (nonatomic, strong) MKReloadModifiedFilesStatusTableOnMainThread reloadTableOnMainThreadBlock;
+@property (nonatomic, strong) MKSourceControlActionCompleted reloadTableOnMainThreadBlock;
 
 @end
 
@@ -43,8 +43,10 @@ MKModifiedFilesStatusActionHandlerDelegate
   self.modifiedFilesTableView.dataSource = self;
 
   __weak typeof(self) weakSelf = self;
-  self.reloadTableOnMainThreadBlock = ^(BOOL success) {
+  self.reloadTableOnMainThreadBlock = ^(BOOL success, NSArray<MKMercurialFile *> *modifiedFiles) {
     if (success) {
+      weakSelf.modifiedFiles = modifiedFiles;
+      weakSelf.modifiedFilesTableDelegate.modifiedFiles = modifiedFiles;
       dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf.modifiedFilesTableView reloadData];
       });

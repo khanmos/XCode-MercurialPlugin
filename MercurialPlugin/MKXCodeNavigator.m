@@ -20,7 +20,7 @@
 + (IDEEditorContext *)currentEditorContext {
 
   IDEEditorContext *editorContext = nil;
-  NSWindowController *currentWindowController = [[NSApp mainWindow] windowController];
+  NSWindowController *currentWindowController = [[NSApp keyWindow] windowController];
   if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
     id editorArea = [currentWindowController performSelector:@selector(editorArea)];
     editorContext = [editorArea performSelector:@selector(lastActiveEditorContext)];
@@ -67,6 +67,13 @@
   
   id currentEditorContext = self.currentEditorContext;
   [currentEditorContext performSelector:@selector(openEditorOpenSpecifier:) withObject:openSpecifier];
+}
+
++ (NSString *)currentWorkspaceHomeDir
+{
+  id workSpace = [self currentWorkspace];
+  NSString *workspacePath = [[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
+  return [workspacePath stringByDeletingLastPathComponent];
 }
 
 #pragma clang diagnostic pop

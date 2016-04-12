@@ -5,7 +5,7 @@
 
 @class MKModifiedFilesStatusTableWindowController;
 
-typedef void(^MKSourceControlActionCompleted)(BOOL success);
+typedef void(^MKSourceControlActionCompleted)(BOOL success, NSArray<MKMercurialFile *> *modifiedFiles);
 
 @protocol MKModifiedFilesStatusTableWindowControllerDelegate <NSObject>
 

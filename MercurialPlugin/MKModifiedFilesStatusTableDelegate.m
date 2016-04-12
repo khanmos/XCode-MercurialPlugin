@@ -36,7 +36,6 @@ NSString * const kMKModifiedFilesStatusTableColumnActionReuseId = @"ActionButton
 {
   switch (fileState) {
     case MKMercurialFileStateUntracked:
-    case MKMercurialFileStateAdded:
       return @"Delete";
     case MKMercurialFileStateConflicted:
       return @"Resolve";
@@ -49,7 +48,6 @@ NSString * const kMKModifiedFilesStatusTableColumnActionReuseId = @"ActionButton
 {
   switch (fileState) {
     case MKMercurialFileStateUntracked:
-    case MKMercurialFileStateAdded:
       return @selector(didPerformDeleteAction:);
     case MKMercurialFileStateConflicted:
       return @selector(didPerformResolveAction:);
@@ -105,11 +103,6 @@ NSString * const kMKModifiedFilesStatusTableColumnActionReuseId = @"ActionButton
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
-{
-  return NO;
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
   return NO;
 }

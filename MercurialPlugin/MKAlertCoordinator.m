@@ -6,7 +6,7 @@
 
 + (MKAlertCoordinator *)sharedCoordinator
 {
-  __block MKAlertCoordinator *sharedCoordinator;
+  static MKAlertCoordinator *sharedCoordinator;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedCoordinator = [[MKAlertCoordinator alloc] init];

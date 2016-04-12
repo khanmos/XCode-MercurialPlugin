@@ -4,7 +4,7 @@
 #import <OCMock/OCMock.h>
 
 #import "MKShellCommand.h"
-#import "MKContext.h"
+#import "MKIDEContext.h"
 #import "MKFilesStatusService.h"
 #import "MKMercurialCommand.h"
 
@@ -19,7 +19,7 @@ static id mockCtx;
 - (void)setUp {
   [super setUp];
   
-  mockCtx = [OCMockObject partialMockForObject:[MKContext currentContext]];
+  mockCtx = [OCMockObject partialMockForObject:[MKIDEContext currentContext]];
   mockMercurialCommand = [OCMockObject mockForClass:[MKMercurialCommand class]];
   
   [[[mockCtx expect] andReturn:@"userName"] userName];

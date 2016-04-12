@@ -17,6 +17,7 @@ IDEWorkspaceDocument;
 
 + (IDEWorkspace *)currentWorkspace;
 + (IDESourceCodeDocument *)currentSourceCodeDocument;
++ (NSString *)currentWorkspaceHomeDir;
 
 + (void)openFileInEditorWithURL:(NSURL *)fileURL;
 

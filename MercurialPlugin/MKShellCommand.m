@@ -30,11 +30,10 @@
 
 - (instancetype) init {
   if( self = [super init]){
-    self.cmdConcurrentQueue = dispatch_queue_create("com.mk.shellCommandConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+    self.cmdConcurrentQueue = dispatch_queue_create("com.mk.shellCommandSerialQueue", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
-
 
 - (void) executeWithArguments:(NSArray<NSString *>*) arguments
                    onComplete:(CommandCompletionBlock)onComplete

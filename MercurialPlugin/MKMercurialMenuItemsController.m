@@ -1,14 +1,14 @@
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
 
+#import "MKFileStatusParser.h"
+#import "MKFilesStatusService.h"
 #import "MKMercurialMenuItemsController.h"
+#import "MKModifiedFilesStatusMenu.h"
+#import "MKModifiedFilesStatusMenuDataSource.h"
 #import "MKModifiedFilesStatusTableWindowController.h"
 #import "MKNotificationConstants.h"
-#import "MKFilesStatusService.h"
-#import "MKFileStatusParser.h"
-#import "MKXCodeNavigator.h"
-#import "MKModifiedFilesStatusMenu.h"
-#import "MKModifiedFilesMenuItemsDataSource.h"
 #import "MKWindowPresenter.h"
+#import "MKXCodeNavigator.h"
 
 static NSString * const kSourceControlMenuItemName = @"Source Control";
 static NSString * const kMercurialMenuItemName = @"Mercurial";
@@ -21,7 +21,7 @@ MKModifiedFilesStatusTableWindowControllerDelegate
 
 @property (nonatomic, strong) NSArray<MKMercurialFile *> *sortedModifiedFiles;
 @property (nonatomic, strong) MKModifiedFilesStatusMenu *modifiedFilesMenu;
-@property (nonatomic, strong) MKModifiedFilesMenuItemsDataSource *menuItemsDataSource;
+@property (nonatomic, strong) MKModifiedFilesStatusMenuDataSource *menuItemsDataSource;
 
 @property (nonatomic, strong) MKModifiedFilesStatusTableWindowController *modifiedFilesStatusTableViewController;
 @property (nonatomic, strong) MKFilesStatusService *filesStatusService;
@@ -31,7 +31,8 @@ MKModifiedFilesStatusTableWindowControllerDelegate
 
 @implementation MKMercurialMenuItemsController
 
-+ (MKMercurialMenuItemsController* ) mercurialMenuItemsController {
++ (MKMercurialMenuItemsController* ) mercurialMenuItemsController
+{
   static MKMercurialMenuItemsController *oneMeuItem;
   
   static dispatch_once_t onceToken;
@@ -50,11 +51,11 @@ MKModifiedFilesStatusTableWindowControllerDelegate
   return self;
 }
 
-- (void) initMercurialMenuItemsOnce {
-  
+#pragma mark - Public
+
+- (void) initMercurialMenuItemsOnce
+{
   void (^proceed)() = ^{
-    
-    [self updateModifiedFilesWithCompletion:nil];
     
     // Add the main Mercurial menu
     NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:kSourceControlMenuItemName];
@@ -69,7 +70,7 @@ MKModifiedFilesStatusTableWindowControllerDelegate
       [[menuItem submenu] addItem:actionMenuItem];
 
       self.modifiedFilesMenu = [[MKModifiedFilesStatusMenu alloc] initWithMainMercurialMenu:actionMenuItem];
-      self.menuItemsDataSource = [[MKModifiedFilesMenuItemsDataSource alloc] init];
+      self.menuItemsDataSource = [[MKModifiedFilesStatusMenuDataSource alloc] init];
       
       self.modifiedFilesMenu.dataSource = self.menuItemsDataSource;
       self.modifiedFilesMenu.delegate = self;
@@ -80,42 +81,19 @@ MKModifiedFilesStatusTableWindowControllerDelegate
   dispatch_once(&onceToken, proceed);
 }
 
-- (void) updateModifiedFilesWithCompletion:(MKModifiedFilesUpdateComplete)completion {
-  [self.filesStatusService findAllModifiedFilesWithCompletion:^(NSArray<MKMercurialFile *> *modifiedFiles) {
-    [self handleModifiedFilesFound:modifiedFiles withCompletion:completion];
-  }];
-}
-
-#pragma mark - Private
-
-- (void) handleModifiedFilesFound:(NSArray<MKMercurialFile *> *)allModifiedFiles withCompletion:(MKModifiedFilesUpdateComplete)completion
+- (void) updateModifiedFilesWithCompletion:(MKModifiedFilesUpdateComplete)completion
 {
-  if (self.processingFilesStatus) {
-    return;
-  }
-  
-  self.sortedModifiedFiles = [allModifiedFiles sortedArrayUsingComparator:^NSComparisonResult(MKMercurialFile *  _Nonnull obj1, MKMercurialFile *  _Nonnull obj2) {
-    
-    char c1 = MercurialCharFromState(obj1.state);
-    char c2 = MercurialCharFromState(obj2.state);
-    
-    return c1 > c2 ? NSOrderedAscending : NSOrderedDescending;
+  [self.filesStatusService findAllModifiedFilesWithCompletion:^(NSArray<MKMercurialFile *> *modifiedFiles) {
+    [self _handleModifiedFilesFound:modifiedFiles withCompletion:completion];
   }];
-  
-  self.menuItemsDataSource.modifiedFiles = self.sortedModifiedFiles;
-  [self.modifiedFilesMenu reloadMenuItems];
-
-  if (completion){
-    completion(self.sortedModifiedFiles);
-  }
 }
 
 #pragma mark - MKModifiedFilesMenuDelegate
 
-- (void)modifiedFilesStatusMenu:(MKModifiedFilesStatusMenu *)modifiedFilesMenu didSelectMenuItemAtIndex:(NSInteger)index
+- (void)modifiedFilesStatusMenu:(MKModifiedFilesStatusMenu *)modifiedFilesMenu
+       didSelectMenuItemAtIndex:(NSInteger)index
 {
-  MKMercurialFile *selectedFile =
-  self.sortedModifiedFiles[index];
+  MKMercurialFile *selectedFile = self.sortedModifiedFiles[index];
   [MKXCodeNavigator openFileInEditorWithURL:[NSURL fileURLWithPath:selectedFile.filePath isDirectory:NO]];
 }
 
@@ -124,7 +102,6 @@ MKModifiedFilesStatusTableWindowControllerDelegate
   self.modifiedFilesStatusTableViewController = [[MKModifiedFilesStatusTableWindowController alloc] initWithWindowNibName:@"MKModifiedFilesStatusTableWindowController"];
   self.modifiedFilesStatusTableViewController.modifiedFiles = self.sortedModifiedFiles;
   self.modifiedFilesStatusTableViewController.delegate = self;
-  
   [[MKWindowPresenter sharedPresenter] presentViewControllerAsSheet:self.modifiedFilesStatusTableViewController withSize:MKSheetSizeLarge];
 }
 
@@ -135,7 +112,7 @@ MKModifiedFilesStatusTableWindowControllerDelegate
                                 onComplete:(MKSourceControlActionCompleted)completion
 {
   [self.filesStatusService revertFile:modifiedFile onComplete:^(BOOL success) {
-    completion(success);
+    [self _reloadModifiedFilesOnSuccess:success andPerform:completion];
   }];
 }
 
@@ -144,7 +121,7 @@ MKModifiedFilesStatusTableWindowControllerDelegate
                                 onComplete:(MKSourceControlActionCompleted)completion
 {
   [self.filesStatusService markModifiedFileAsResolved:modifiedFile onComplete:^(BOOL success) {
-    completion(success);
+    [self _reloadModifiedFilesOnSuccess:success andPerform:completion];
   }];
 }
 
@@ -153,8 +130,46 @@ MKModifiedFilesStatusTableWindowControllerDelegate
                                 onComplete:(MKSourceControlActionCompleted)completion
 {
   [self.filesStatusService deleteFile:modifiedFile onComplete:^(BOOL success) {
-    completion(success);
+    [self _reloadModifiedFilesOnSuccess:success andPerform:completion];
   }];
+}
+
+#pragma mark - Private
+
+- (void)_handleModifiedFilesFound:(NSArray<MKMercurialFile *> *)allModifiedFiles withCompletion:(MKModifiedFilesUpdateComplete)completion
+{
+  if (self.processingFilesStatus) {
+    return;
+  }
+
+  self.sortedModifiedFiles = [allModifiedFiles sortedArrayUsingComparator:^NSComparisonResult(MKMercurialFile *  _Nonnull obj1, MKMercurialFile *  _Nonnull obj2) {
+
+    char c1 = MercurialCharFromState(obj1.state);
+    char c2 = MercurialCharFromState(obj2.state);
+
+    return c1 > c2 ? NSOrderedAscending : NSOrderedDescending;
+  }];
+
+  self.menuItemsDataSource.modifiedFiles = self.sortedModifiedFiles;
+  [self.modifiedFilesMenu reloadMenuItems];
+
+  if (completion){
+    completion(self.sortedModifiedFiles);
+  }
+}
+
+- (void)_reloadModifiedFilesOnSuccess:(BOOL)success
+                           andPerform:(MKSourceControlActionCompleted)onComplete
+{
+  if (success) {
+    [self updateModifiedFilesWithCompletion:^(NSArray<MKMercurialFile *> *modifiedFiles) {
+      if (onComplete) {
+        onComplete(YES, modifiedFiles);
+      }
+    }];
+  } else if(onComplete) {
+    onComplete(NO, nil);
+  }
 }
 
 @end

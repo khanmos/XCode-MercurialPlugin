@@ -5,7 +5,7 @@
 #import "MKModifiedFilesStatusMenu.h"
 #import "MKMercurialFile.h"
 
-@interface MKModifiedFilesMenuItemsDataSource : NSObject <MKModifiedFilesStatusMenuDataSource>
+@interface MKModifiedFilesStatusMenuDataSource : NSObject <MKModifiedFilesStatusMenuDataSource>
 
 @property (nonatomic, strong) NSArray<MKMercurialFile *> *modifiedFiles;
 

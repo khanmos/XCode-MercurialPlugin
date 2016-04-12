@@ -3,11 +3,15 @@
 #import "MercurialPlugin.h"
 
 #import "MKConstants.h"
-#import "MKContext.h"
+#import "MKIDEContext.h"
 #import "MKMercurialMenuItemsController.h"
 
 static NSString *kMKXCodeMenuActionNotification = @"NSMenuWillSendActionNotification";
 static NSString *kMKXCodeSourceControlScanNotification = @"IDESourceControlWillScanWorkspaceNotification";
+static NSString *kMKXCodeNewFileWasAddedNotification = @"PBXReferenceWasAddedToGroupNotification";
+static NSString *kMKXCodeFileWasDeletedNotification = @"IDENavigableItemCoordinatorWillForgetItemsNotification";
+static NSString *kMKXCodeContainerDidOpenContainerNotification = @"IDEContainerDidOpenContainerNotification";
+static NSString *kMKXCodeWindowDidBecomeMainNotification = @"NSWindowDidBecomeMainNotification";
 
 @interface MercurialPlugin()
 
@@ -43,8 +47,20 @@ static NSString *kMKXCodeSourceControlScanNotification = @"IDESourceControlWillS
       
       // Listen for XCode to start scanning for repository
       [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(handleProjectOpenNotification:)
-                                                   name:kMKXCodeSourceControlScanNotification
+                                               selector:@selector(updateModifiedFiles:)
+                                                   name:kMKXCodeWindowDidBecomeMainNotification
+                                                 object:nil];
+
+      // Listen for XCode to add a new file
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(updateModifiedFiles:)
+                                                   name:kMKXCodeNewFileWasAddedNotification
+                                                 object:nil];
+
+      // Listen for XCode to delete a file
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(updateModifiedFiles:)
+                                                   name:kMKXCodeFileWasDeletedNotification
                                                  object:nil];
     }
     return self;
@@ -60,25 +76,25 @@ static NSString *kMKXCodeSourceControlScanNotification = @"IDESourceControlWillS
 {
   //removeObserver
   [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
+  [[MKMercurialMenuItemsController mercurialMenuItemsController] initMercurialMenuItemsOnce];
 }
 
 #pragma mark - Notification Handlers
-- (void)handleProjectOpenNotification:(NSNotification *)notification {
-  [[MKMercurialMenuItemsController mercurialMenuItemsController] initMercurialMenuItemsOnce];
-  [self doTest];
+- (void)updateModifiedFiles:(NSNotification *)notification {
+  [[MKMercurialMenuItemsController mercurialMenuItemsController] updateModifiedFilesWithCompletion:nil];
 }
 
 - (void)handleMenuActionNotification:(NSNotification *)notification {
   NSMenuItem *menuItem = notification.userInfo[@"MenuItem"];
-  
-  // Check is user saved a file
+  // Check if user saved a file
   if ([menuItem.title isEqualToString:kMKIDEFileSaveOperation]){
     [[MKMercurialMenuItemsController mercurialMenuItemsController] updateModifiedFilesWithCompletion:nil];
   }
 }
 
 #pragma mark - Experimental
-- (void) doTest{
+- (void) doTest:(NSNotification *)notification{
+  NSLog(@"Name = %@, UserInfo = %@", notification.name, notification.userInfo);
   // For random experiments
 }
 

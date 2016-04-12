@@ -20,7 +20,7 @@
 		E78433221C7AD7DB00304047 /* MKMercurialMenuItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78433201C7AD7DA00304047 /* MKMercurialMenuItemsController.m */; };
 		E7A239C41C73954F00BDB947 /* MKModifiedFilesServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A239C31C73954F00BDB947 /* MKModifiedFilesServiceTests.m */; };
 		E7A239C51C7395DB00BDB947 /* MKFilesStatusService.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A83C1C6DA31A00E41806 /* MKFilesStatusService.m */; };
-		E7A239C61C7395E800BDB947 /* MKContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8401C6DA5B100E41806 /* MKContext.m */; };
+		E7A239C61C7395E800BDB947 /* MKIDEContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8401C6DA5B100E41806 /* MKIDEContext.m */; };
 		E7A239C71C7395F900BDB947 /* MKShellCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A81F1C6C100100E41806 /* MKShellCommand.m */; };
 		E7A4A80B1C6BF39100E41806 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7A4A80A1C6BF39100E41806 /* AppKit.framework */; };
 		E7A4A80D1C6BF39100E41806 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7A4A80C1C6BF39100E41806 /* Foundation.framework */; };
@@ -34,8 +34,8 @@
 		E7A4A8381C6C65F800E41806 /* MKFileStatusParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8281C6C626A00E41806 /* MKFileStatusParser.m */; };
 		E7A4A8391C6C6AE400E41806 /* MKMercurialFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8251C6C600600E41806 /* MKMercurialFile.m */; };
 		E7A4A83D1C6DA31A00E41806 /* MKFilesStatusService.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A83C1C6DA31A00E41806 /* MKFilesStatusService.m */; };
-		E7A4A8411C6DA5B100E41806 /* MKContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8401C6DA5B100E41806 /* MKContext.m */; };
-		E7A4E1E81C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m */; };
+		E7A4A8411C6DA5B100E41806 /* MKIDEContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4A8401C6DA5B100E41806 /* MKIDEContext.m */; };
+		E7A4E1E81C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.m */; };
 		E7A9A8A51C86BC7900FFAC16 /* MKModifiedFilesStatusTableWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C9AA1C1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m */; };
 		E7A9A8A61C86D7CA00FFAC16 /* MKXCodeNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */; };
 		E7A9A8A81C86D87C00FFAC16 /* MKMercurialFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A9A8A71C86D87C00FFAC16 /* MKMercurialFileTests.m */; };
@@ -85,10 +85,10 @@
 		E7A4A8361C6C648900E41806 /* MKFileStateParserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKFileStateParserTest.m; sourceTree = "<group>"; };
 		E7A4A83B1C6DA31A00E41806 /* MKFilesStatusService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKFilesStatusService.h; sourceTree = "<group>"; };
 		E7A4A83C1C6DA31A00E41806 /* MKFilesStatusService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKFilesStatusService.m; sourceTree = "<group>"; };
-		E7A4A83F1C6DA5B100E41806 /* MKContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKContext.h; sourceTree = "<group>"; };
-		E7A4A8401C6DA5B100E41806 /* MKContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKContext.m; sourceTree = "<group>"; };
-		E7A4E1E61C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesMenuItemsDataSource.h; sourceTree = "<group>"; };
-		E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesMenuItemsDataSource.m; sourceTree = "<group>"; };
+		E7A4A83F1C6DA5B100E41806 /* MKIDEContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKIDEContext.h; sourceTree = "<group>"; };
+		E7A4A8401C6DA5B100E41806 /* MKIDEContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKIDEContext.m; sourceTree = "<group>"; };
+		E7A4E1E61C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusMenuDataSource.h; sourceTree = "<group>"; };
+		E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusMenuDataSource.m; sourceTree = "<group>"; };
 		E7A9A8A71C86D87C00FFAC16 /* MKMercurialFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMercurialFileTests.m; sourceTree = "<group>"; };
 		E7A9A8A91C875C1600FFAC16 /* MKConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKConstants.h; sourceTree = "<group>"; };
 		E7C9AA1B1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKModifiedFilesStatusTableWindowController.h; sourceTree = "<group>"; };
@@ -195,9 +195,9 @@
 		E784331E1C7AD7B000304047 /* ModifiedFilesStatus */ = {
 			isa = PBXGroup;
 			children = (
-				E7A4E1E51C8AC267006B9F50 /* DataSource */,
 				E7B9A9111CA8D8FF00ED71F3 /* ModifiedFilesStatusMenu */,
-				E78433291C7CEB3900304047 /* WindowControllers */,
+				E7A4E1E51C8AC267006B9F50 /* ModifiedFilesStatusMenuDataSource */,
+				E73DACDF1C82C644007F2046 /* ModifiedFilesStatusTable */,
 			);
 			name = ModifiedFilesStatus;
 			sourceTree = "<group>";
@@ -210,14 +210,6 @@
 				E7FF8FE71CB486FA0062B35C /* AlertCoordinator */,
 			);
 			name = UI;
-			sourceTree = "<group>";
-		};
-		E78433291C7CEB3900304047 /* WindowControllers */ = {
-			isa = PBXGroup;
-			children = (
-				E73DACDF1C82C644007F2046 /* ModifiedFilesStatusTable */,
-			);
-			name = WindowControllers;
 			sourceTree = "<group>";
 		};
 		E79686141C80C323009B1139 /* Resources */ = {
@@ -286,6 +278,7 @@
 				E78432F51C76964C00304047 /* ShellCommand */,
 				E78433271C7CEB2900304047 /* UI */,
 				E73DACE61C8413D8007F2046 /* XCodeAPI */,
+				E7B3E8021CBD5AC2000FDC7A /* XCodeNotifications */,
 				E7A4A8121C6BF39100E41806 /* MercurialPlugin.h */,
 				E7A4A8131C6BF39100E41806 /* MercurialPlugin.m */,
 				E7A4A8151C6BF39100E41806 /* NSObject_Extension.h */,
@@ -346,19 +339,19 @@
 		E7A4A83E1C6DA59100E41806 /* Context */ = {
 			isa = PBXGroup;
 			children = (
-				E7A4A83F1C6DA5B100E41806 /* MKContext.h */,
-				E7A4A8401C6DA5B100E41806 /* MKContext.m */,
+				E7A4A83F1C6DA5B100E41806 /* MKIDEContext.h */,
+				E7A4A8401C6DA5B100E41806 /* MKIDEContext.m */,
 			);
 			name = Context;
 			sourceTree = "<group>";
 		};
-		E7A4E1E51C8AC267006B9F50 /* DataSource */ = {
+		E7A4E1E51C8AC267006B9F50 /* ModifiedFilesStatusMenuDataSource */ = {
 			isa = PBXGroup;
 			children = (
-				E7A4E1E61C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.h */,
-				E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m */,
+				E7A4E1E61C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.h */,
+				E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.m */,
 			);
-			name = DataSource;
+			name = ModifiedFilesStatusMenuDataSource;
 			sourceTree = "<group>";
 		};
 		E7A4E1E91C8AC4E3006B9F50 /* Views */ = {
@@ -366,6 +359,13 @@
 			children = (
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		E7B3E8021CBD5AC2000FDC7A /* XCodeNotifications */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = XCodeNotifications;
 			sourceTree = "<group>";
 		};
 		E7B9A9111CA8D8FF00ED71F3 /* ModifiedFilesStatusMenu */ = {
@@ -492,10 +492,10 @@
 				E7FF8FE51CB486F50062B35C /* MKAlertCoordinator.m in Sources */,
 				E7A4A8201C6C100100E41806 /* MKShellCommand.m in Sources */,
 				E724CD9B1C9C92C9000F767D /* MKWindowPresenter.m in Sources */,
-				E7A4E1E81C8AC2BC006B9F50 /* MKModifiedFilesMenuItemsDataSource.m in Sources */,
+				E7A4E1E81C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.m in Sources */,
 				E7E232DA1C9A558900C635A7 /* MKModifiedFilesStatusMenu.m in Sources */,
 				E78432F81C76967300304047 /* MKMercurialCommand.m in Sources */,
-				E7A4A8411C6DA5B100E41806 /* MKContext.m in Sources */,
+				E7A4A8411C6DA5B100E41806 /* MKIDEContext.m in Sources */,
 				E7A4A83D1C6DA31A00E41806 /* MKFilesStatusService.m in Sources */,
 				E7A4A8141C6BF39100E41806 /* MercurialPlugin.m in Sources */,
 				E7A4A8171C6BF39100E41806 /* NSObject_Extension.m in Sources */,
@@ -520,7 +520,7 @@
 				E7A4A8371C6C648900E41806 /* MKFileStateParserTest.m in Sources */,
 				E7A4A8381C6C65F800E41806 /* MKFileStatusParser.m in Sources */,
 				E7A239C51C7395DB00BDB947 /* MKFilesStatusService.m in Sources */,
-				E7A239C61C7395E800BDB947 /* MKContext.m in Sources */,
+				E7A239C61C7395E800BDB947 /* MKIDEContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
