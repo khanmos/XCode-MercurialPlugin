@@ -9,7 +9,7 @@
 static NSString *kMKXCodeMenuActionNotification = @"NSMenuWillSendActionNotification";
 static NSString *kMKXCodeSourceControlScanNotification = @"IDESourceControlWillScanWorkspaceNotification";
 static NSString *kMKXCodeNewFileWasAddedNotification = @"PBXReferenceWasAddedToGroupNotification";
-static NSString *kMKXCodeFileWasDeletedNotification = @"IDENavigableItemCoordinatorWillForgetItemsNotification";
+static NSString *kMKXCodeFileWasDeletedNotification = @"PBXReferenceWillBeRemovedFromProjectNotification";
 static NSString *kMKXCodeContainerDidOpenContainerNotification = @"IDEContainerDidOpenContainerNotification";
 static NSString *kMKXCodeWindowDidBecomeMainNotification = @"NSWindowDidBecomeMainNotification";
 
@@ -72,7 +72,7 @@ static NSString *kMKXCodeWindowDidBecomeMainNotification = @"NSWindowDidBecomeMa
 }
 
 #pragma mark Launch
-- (void)didApplicationFinishLaunchingNotification:(NSNotification*)noti
+- (void)didApplicationFinishLaunchingNotification:(NSNotification*)notification
 {
   //removeObserver
   [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];

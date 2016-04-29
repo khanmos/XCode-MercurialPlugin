@@ -6,7 +6,7 @@
 
 @property (nonatomic, strong) NSTask *task;
 @property (nonatomic, strong) NSFileHandle *file;
-@property (nonatomic, strong) dispatch_queue_t cmdConcurrentQueue;
+@property (nonatomic, strong) dispatch_queue_t cmdSerialQueue;
 
 @end
 
@@ -30,7 +30,7 @@
 
 - (instancetype) init {
   if( self = [super init]){
-    self.cmdConcurrentQueue = dispatch_queue_create("com.mk.shellCommandSerialQueue", DISPATCH_QUEUE_SERIAL);
+    self.cmdSerialQueue = dispatch_queue_create("com.mk.shellCommandSerialQueue", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
@@ -38,7 +38,7 @@
 - (void) executeWithArguments:(NSArray<NSString *>*) arguments
                    onComplete:(CommandCompletionBlock)onComplete
 {
-  dispatch_async(self.cmdConcurrentQueue, ^{
+  dispatch_async(self.cmdSerialQueue, ^{
     
     if (arguments){
       self.task.arguments = arguments;

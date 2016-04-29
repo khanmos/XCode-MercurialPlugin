@@ -17,7 +17,6 @@
 
 @property (nonatomic, assign) MKMercurialCommandType cmdType;
 @property (nonatomic, strong) NSArray <NSString *> *arguments;
-@property (nonatomic, strong) dispatch_queue_t cmdConcurrentQueue;
 
 @end
 
@@ -33,10 +32,10 @@
   if (self = [super init]){
     
     self.cmdType = cmdType;
-    self.cmdConcurrentQueue = dispatch_queue_create("com.mk.mercurialCommandConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
   }
   return self;
 }
+
 - (instancetype) initWithMercurialCommandType:(MKMercurialCommandType)cmdType
                                     arguments:(NSArray<NSString*>*)arguments {
   if (self = [self initWithMercurialCommandType:cmdType]){
@@ -76,17 +75,13 @@
 
   [mercurialShellCommand executeWithArguments:finalArguments
                                    onComplete:^(NSString *output, NSError *error) {
-    
-    dispatch_async(self.cmdConcurrentQueue, ^{
-      
-      NSString *result = MK_TRIM_STR(output);
-      
-      if (cmdSuccess && result){
-        cmdSuccess(result, nil);
-      } else if (error){
-        cmdSuccess(nil, error);
-      }
-    });
+                                     NSString *result = MK_TRIM_STR(output);
+
+                                     if (cmdSuccess && result){
+                                       cmdSuccess(result, nil);
+                                     } else if (error){
+                                       cmdSuccess(nil, error);
+                                     }
   }];
 }
 

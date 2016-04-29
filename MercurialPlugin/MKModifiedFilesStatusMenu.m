@@ -34,9 +34,7 @@ static NSMenuItem *s_moreMenuItem;
 
 @property (nonatomic, strong) NSMenuItem *mainMercurialMenuItem;
 @property (nonatomic, strong) dispatch_queue_t menuItemsQueue;
-
 @property (nonatomic, strong) NSArray<NSMenuItem *> *currentModifiedFilesMenuItems;
-
 @property (assign) BOOL processingUpdates;
 
 @end
@@ -57,56 +55,45 @@ static NSMenuItem *s_moreMenuItem;
 - (void)reloadMenuItems
 {
   if (self.processingUpdates) return;
-  
+  self.processingUpdates = YES;
   [self _dispatchAsyncOnMenuItemsQueue:^{
-    
-    self.processingUpdates = YES;
-    
     // Remove all items first
-    [self _removeCurrentModifiedMenuItemsWithCompletion:^{
-      
-      NSInteger maxItemsToAdd = [self.dataSource maxNumberOfVisibleMenuItems];
-      maxItemsToAdd = maxItemsToAdd > kMaxMenuItemsCanBeVisible ? kMaxMenuItemsCanBeVisible : maxItemsToAdd;
-      NSInteger menuItemsAdded = 0;
-      
-      NSMutableArray *newMenuItems = [NSMutableArray array];
-      
-      NSInteger numberOfMenuItemsInSection = [self.dataSource numberOfMenuItems];
-      
-      for (int menuItemIndex = 0; menuItemIndex < numberOfMenuItemsInSection; ++menuItemIndex) {
-        
-        NSMenuItem *menuItem = [self.dataSource modifiedFilesStatusMenu:self menuItemAtIndex:menuItemIndex];
-        
-        if (menuItem) {
-          menuItem.indexOfMenuItem = menuItemIndex;
-          menuItem.target = self;
-          menuItem.action = @selector(_didSelectMenuItem:);
-          
-          [newMenuItems addObject:menuItem];
+    [self _removeCurrentModifiedMenuItems];
+
+    NSInteger maxItemsToAdd = [self.dataSource maxNumberOfVisibleMenuItems];
+    maxItemsToAdd = maxItemsToAdd > kMaxMenuItemsCanBeVisible ? kMaxMenuItemsCanBeVisible : maxItemsToAdd;
+    NSInteger menuItemsAdded = 0;
+    NSMutableArray *newMenuItems = [NSMutableArray array];
+    NSInteger numberOfMenuItemsInSection = [self.dataSource numberOfMenuItems];
+
+    for (int menuItemIndex = 0; menuItemIndex < numberOfMenuItemsInSection; ++menuItemIndex) {
+      NSMenuItem *menuItem = [self.dataSource modifiedFilesStatusMenu:self menuItemAtIndex:menuItemIndex];
+      if (menuItem) {
+        menuItem.indexOfMenuItem = menuItemIndex;
+        menuItem.target = self;
+        menuItem.action = @selector(_didSelectMenuItem:);
+
+        [newMenuItems addObject:menuItem];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [self.mainMercurialMenuItem.menu addItem:menuItem];
+        });
+
+        ++menuItemsAdded;
+
+        if (menuItemsAdded == maxItemsToAdd) {
+          NSMenuItem *showMoreMenuItem = [self.dataSource modifiedFilesStatusMenuShowMoreMenuItem:self];
+          showMoreMenuItem.target = self;
+          showMoreMenuItem.action = @selector(_didSelectShowMoreItem:);
+          showMoreMenuItem.representedObject = kShowMoreMenuItemIdentifier;
           dispatch_async(dispatch_get_main_queue(), ^{
-            [self.mainMercurialMenuItem.menu addItem:menuItem];
+            [self.mainMercurialMenuItem.menu addItem:showMoreMenuItem];
           });
-          
-          ++menuItemsAdded;
-          
-          if (menuItemsAdded == maxItemsToAdd) {
-            NSMenuItem *showMoreMenuItem = [self.dataSource modifiedFilesStatusMenuShowMoreMenuItem:self];
-            showMoreMenuItem.target = self;
-            showMoreMenuItem.action = @selector(_didSelectShowMoreItem:);
-            showMoreMenuItem.representedObject = kShowMoreMenuItemIdentifier;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-              [self.mainMercurialMenuItem.menu addItem:showMoreMenuItem];
-            });
-            
-            break;
-          }
+          break;
         }
       }
-      
-      self.currentModifiedFilesMenuItems = [NSArray arrayWithArray:newMenuItems];
-      self.processingUpdates = NO;
-    }];
+    }
+    self.currentModifiedFilesMenuItems = [NSArray arrayWithArray:newMenuItems];
+    self.processingUpdates = NO;
   }];
 }
 
@@ -121,10 +108,10 @@ static NSMenuItem *s_moreMenuItem;
 
 #pragma mark - Private
 
-- (void)_removeCurrentModifiedMenuItemsWithCompletion:(void(^)())onComplete
+- (void)_removeCurrentModifiedMenuItems
 {
   if (self.currentModifiedFilesMenuItems.count > 0) {
-    NSArray *existingMenuItems = self.currentModifiedFilesMenuItems;
+    NSArray *existingMenuItems = [self.currentModifiedFilesMenuItems copy];
     dispatch_async(dispatch_get_main_queue(), ^{
       
       NSInteger showMoreItemIndex = [self.mainMercurialMenuItem.menu indexOfItemWithRepresentedObject:kShowMoreMenuItemIdentifier];
@@ -138,17 +125,8 @@ static NSMenuItem *s_moreMenuItem;
           [self.mainMercurialMenuItem.menu removeItem:menuItem];
         }
       }
-      
-      self.currentModifiedFilesMenuItems = @[];
-      
-      if (onComplete) {
-        [self _dispatchAsyncOnMenuItemsQueue:onComplete];
-      }
     });
-  } else {
-    if (onComplete) {
-      onComplete();
-    }
+    self.currentModifiedFilesMenuItems = @[];
   }
 }
 
