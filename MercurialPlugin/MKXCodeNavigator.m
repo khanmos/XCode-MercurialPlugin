@@ -20,7 +20,7 @@
 + (IDEEditorContext *)currentEditorContext {
 
   IDEEditorContext *editorContext = nil;
-  NSWindowController *currentWindowController = [[NSApp keyWindow] windowController];
+  NSWindowController *currentWindowController = [[NSApp mainWindow] windowController];
   if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
     id editorArea = [currentWindowController performSelector:@selector(editorArea)];
     editorContext = [editorArea performSelector:@selector(lastActiveEditorContext)];
