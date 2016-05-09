@@ -6,70 +6,17 @@
 #import "MKIDEContext.h"
 #import "MKXCodeNavigator.h"
 
-static dispatch_queue_t ideContextQueue;
-static NSMutableDictionary *currentIDEContexts;
-
-@interface MKIDEContext ()
-
-@property (nonatomic, copy, readwrite) NSString* userName;
-@property (nonatomic, copy, readwrite) NSString* userHome;
-@property (nonatomic, copy, readwrite) NSString* projectPath;
-
-@end
-
-@implementation MKIDEContext
-
-+ (void)load
+extern NSString *MKCurrentUserName(void)
 {
-  ideContextQueue = dispatch_queue_create("com.mk.ideContextQueue", DISPATCH_QUEUE_SERIAL);
-  currentIDEContexts = [NSMutableDictionary dictionary];
+  return NSUserName();
 }
 
-- (instancetype)initWithProjectPath:(NSString *)projectPath userName:(NSString *)userName userHome:(NSString *)userHome
+extern NSString *MKCurrentUserHomeDirectory(void)
 {
-  if (self = [super init]) {
-    self.userName = userName;
-    self.userHome = userHome;
-    self.projectPath = projectPath;
-  }
-  return self;
+  return NSHomeDirectory();
 }
 
-+ (MKIDEContext *)getCurrentIDEContext
+extern NSString *MKCurrentUserWorkingDirectory(void)
 {
-  __block MKIDEContext *ctx;
-
-  dispatch_sync(ideContextQueue, ^{
-    NSString *projectPath = [MKXCodeNavigator currentWorkspaceHomeDir];
-
-    if (!projectPath){
-      ctx = nil;
-      return;
-    }
-
-    if (currentIDEContexts[projectPath]) {
-      ctx = currentIDEContexts[projectPath];
-    } else {
-      ctx = [[MKIDEContext alloc] initWithProjectPath:projectPath
-                                             userName:NSUserName()
-                                             userHome:NSHomeDirectory()];
-
-      currentIDEContexts[projectPath] = ctx;
-    }
-  });
-
-  return ctx;
+  return [MKXCodeNavigator currentWorkspaceHomeDir];
 }
-
-+ (void)destroyCurrentIDEContext
-{
-  dispatch_async(ideContextQueue, ^{
-    NSString *projectPath = [MKXCodeNavigator currentWorkspaceHomeDir];
-
-    if (currentIDEContexts[projectPath]) {
-      [currentIDEContexts removeObjectForKey:projectPath];
-    }
-  });
-}
-
-@end

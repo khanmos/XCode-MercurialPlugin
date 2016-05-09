@@ -6,7 +6,6 @@
 #import "MKModifiedFilesStatusMenu.h"
 #import "MKModifiedFilesStatusMenuDataSource.h"
 #import "MKModifiedFilesStatusTableWindowController.h"
-#import "MKNotificationConstants.h"
 #import "MKWindowPresenter.h"
 #import "MKXCodeNavigator.h"
 

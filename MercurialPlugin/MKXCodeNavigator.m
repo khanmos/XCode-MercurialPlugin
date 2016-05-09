@@ -17,10 +17,32 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
-+ (IDEEditorContext *)currentEditorContext {
+#pragma mark - Private
 
++ (Class) DVTDocumentLocationClass
+{
+  return NSClassFromString(@"DVTDocumentLocation");
+}
+
++ (Class)IDEEditorOpenSpecifierClass
+{
+  return NSClassFromString(@"IDEEditorOpenSpecifier");
+}
+
++ (Class)IDEEditorContextClass
+{
+  return NSClassFromString(@"IDEEditorContext");
+}
+
++ (NSWindowController *)mainWindowController
+{
+  return [[NSApp mainWindow] windowController];
+}
+
++ (IDEEditorContext *)currentEditorContext
+{
   IDEEditorContext *editorContext = nil;
-  NSWindowController *currentWindowController = [[NSApp mainWindow] windowController];
+  NSWindowController *currentWindowController = [self mainWindowController];
   if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
     id editorArea = [currentWindowController performSelector:@selector(editorArea)];
     editorContext = [editorArea performSelector:@selector(lastActiveEditorContext)];
@@ -28,39 +50,44 @@
   return editorContext;
 }
 
-+ (id)currentEditor {
++ (id)currentEditor
+{
   id editorCtx = self.currentEditorContext;
   return [editorCtx performSelector:@selector(editor)];
 }
 
-+ (IDEWorkspaceDocument *)currentWorkspaceDocument {
++ (IDEWorkspaceDocument *)currentWorkspaceDocument
+{
   IDEWorkspaceDocument *workspaceDocument = nil;
-  NSWindowController *currentWindowController = [[NSApp mainWindow] windowController];
+  NSWindowController *currentWindowController = [self mainWindowController];
   if (currentWindowController && [currentWindowController.document isKindOfClass:NSClassFromString(@"IDEWorkspaceDocument")]) {
     workspaceDocument = (IDEWorkspaceDocument *)currentWindowController.document;
   }
   return workspaceDocument;
 }
 
-+ (IDEWorkspace *)currentWorkspace {
+#pragma mark - Public
+
++ (IDEWorkspace *)currentWorkspace
+{
   id currWorkspaceDoc = self.currentWorkspaceDocument;
   return [currWorkspaceDoc performSelector:@selector(workspace)];
 }
 
-+ (IDESourceCodeDocument *)currentSourceCodeDocument {
++ (IDESourceCodeDocument *)currentSourceCodeDocument
+{
   id sourceCodeDocument = nil;
-  
+
   if ([self.currentEditor isKindOfClass:NSClassFromString(@"IDESourceCodeEditor")]) {
     sourceCodeDocument = [self.currentEditor performSelector:@selector(sourceCodeDocument)];
   } else if ([self.currentEditor isKindOfClass:NSClassFromString(@"IDESourceCodeComparisonEditor")] && [[self.currentEditor performSelector:@selector(primaryDocument)] isKindOfClass:NSClassFromString(@"IDESourceCodeDocument")]) {
     sourceCodeDocument = [self.currentEditor performSelector:@selector(primaryDocument)];
   }
-  
   return sourceCodeDocument;
 }
 
-+ (void)openFileInEditorWithURL:(NSURL *)fileURL {
-  
++ (void)openFileInEditorWithURL:(NSURL *)fileURL
+{
   id documentLocation = [[[self DVTDocumentLocationClass] alloc] performSelector:@selector(initWithDocumentURL:timestamp:) withObject:fileURL withObject:nil];
   
   id openSpecifier = [[self IDEEditorOpenSpecifierClass] performSelector:@selector(structureEditorOpenSpecifierForDocumentLocation:inWorkspace:error:) withObject:documentLocation withObject:self.currentWorkspace];
@@ -77,17 +104,5 @@
 }
 
 #pragma clang diagnostic pop
-
-+ (Class) DVTDocumentLocationClass {
-  return NSClassFromString(@"DVTDocumentLocation");
-}
-
-+ (Class)IDEEditorOpenSpecifierClass {
-  return NSClassFromString(@"IDEEditorOpenSpecifier");
-}
-
-+ (Class)IDEEditorContextClass {
-  return NSClassFromString(@"IDEEditorContext");
-}
 
 @end

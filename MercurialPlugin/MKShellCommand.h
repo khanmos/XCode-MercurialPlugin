@@ -1,15 +1,13 @@
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
 
 #import <Foundation/Foundation.h>
+#import "MKCommandExecution.h"
 
-typedef void (^CommandCompletionBlock)(NSString *output, NSError *error);
+/**
+ Class to execute shell commands.
+ */
+@interface MKShellCommand : NSObject <MKCommandExecution>
 
-@interface MKShellCommand : NSObject
-
-+ (MKShellCommand*) commandWithName:(NSString*)cmdName;
-
-
-- (void) executeWithArguments:(NSArray<NSString *>*) arguments
-                   onComplete:(CommandCompletionBlock)onComplete;
++ (MKShellCommand*)commandWithName:(NSString *)cmdName;
 
 @end

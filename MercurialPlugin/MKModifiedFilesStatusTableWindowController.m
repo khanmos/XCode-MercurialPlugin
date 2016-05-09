@@ -5,7 +5,6 @@
 #import "MKMercurialFile.h"
 #import "MKModifiedFilesStatusTableDelegate.h"
 #import "MKModifiedFilesStatusTableWindowController.h"
-#import "MKNotificationConstants.h"
 #import "MKXCodeNavigator.h"
 
 NSString *kDestructiveInformativeText = @"Cannot be undone.";

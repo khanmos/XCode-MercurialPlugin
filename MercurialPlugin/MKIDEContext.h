@@ -2,13 +2,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MKIDEContext : NSObject
+/**
+ The current project workspace.
+ */
+#ifndef MKIDEContext_h
+#define MKIDEContext_h
 
-@property (nonatomic, copy, readonly) NSString* userName;
-@property (nonatomic, copy, readonly) NSString* userHome;
-@property (nonatomic, copy, readonly) NSString* projectPath;
+extern NSString *MKCurrentUserName(void);
 
-+ (MKIDEContext *) getCurrentIDEContext;
-+ (void)destroyCurrentIDEContext;
+extern NSString *MKCurrentUserHomeDirectory(void);
 
-@end
+extern NSString *MKCurrentUserWorkingDirectory(void);
+
+#endif

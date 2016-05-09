@@ -2,6 +2,7 @@
 
 #import "MKShellCommand.h"
 #import "MKMercurialFile.h"
+#import "MKCommandExecution.h"
 
 typedef NS_ENUM(NSUInteger, MKMercurialCommandType) {
     MKMercurialCommandTypeFilesStatus,
@@ -11,17 +12,12 @@ typedef NS_ENUM(NSUInteger, MKMercurialCommandType) {
     MKMercurialCommandTypeFilesDiff
 };
 
-typedef void (^MercurialCommmandSuccess)(NSString *cmdOutput, NSError *error);
+typedef void (^MKMercurialCommmandCompletion)(NSString *cmdOutput, NSError *error);
 
-@interface MKMercurialCommand : NSObject
+@interface MKMercurialCommand : NSObject <MKCommandExecution>
 
-+ (MKMercurialCommand *) commandWithType:(MKMercurialCommandType)cmdType
-                               arguments:(NSArray<NSString*>*)arguments;
++ (MKMercurialCommand *)commandWithType:(MKMercurialCommandType)cmdType;
 
 - (instancetype) initWithMercurialCommandType:(MKMercurialCommandType)cmdType;
-- (instancetype) initWithMercurialCommandType:(MKMercurialCommandType)cmdType
-                                    arguments:(NSArray<NSString*>*)arguments;
-
-- (void) runWithCompletion:(MercurialCommmandSuccess)cmdSuccess;
 
 @end

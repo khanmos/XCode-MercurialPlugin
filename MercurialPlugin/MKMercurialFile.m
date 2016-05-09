@@ -57,4 +57,9 @@ char MercurialCharFromState(MKMercurialFileState s) {
   return self;
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"{ File = \"%@\", State = %c }", _filePath, MercurialCharFromState(_state)];
+}
+
 @end

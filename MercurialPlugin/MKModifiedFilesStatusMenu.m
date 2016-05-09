@@ -81,17 +81,19 @@ static NSMenuItem *s_moreMenuItem;
         ++menuItemsAdded;
 
         if (menuItemsAdded == maxItemsToAdd) {
-          NSMenuItem *showMoreMenuItem = [self.dataSource modifiedFilesStatusMenuShowMoreMenuItem:self];
-          showMoreMenuItem.target = self;
-          showMoreMenuItem.action = @selector(_didSelectShowMoreItem:);
-          showMoreMenuItem.representedObject = kShowMoreMenuItemIdentifier;
-          dispatch_async(dispatch_get_main_queue(), ^{
-            [self.mainMercurialMenuItem.menu addItem:showMoreMenuItem];
-          });
           break;
         }
       }
     }
+
+    NSMenuItem *showMoreMenuItem = [self.dataSource modifiedFilesStatusMenuShowMoreMenuItem:self];
+    showMoreMenuItem.target = self;
+    showMoreMenuItem.action = @selector(_didSelectShowMoreItem:);
+    showMoreMenuItem.representedObject = kShowMoreMenuItemIdentifier;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.mainMercurialMenuItem.menu addItem:showMoreMenuItem];
+    });
+
     self.currentModifiedFilesMenuItems = [NSArray arrayWithArray:newMenuItems];
     self.processingUpdates = NO;
   }];

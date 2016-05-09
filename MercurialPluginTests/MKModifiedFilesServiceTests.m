@@ -23,7 +23,7 @@ static id mockCtx;
   mockMercurialCommand = [OCMockObject mockForClass:[MKMercurialCommand class]];
   
   [[[mockCtx expect] andReturn:@"userName"] userName];
-  [[[mockCtx expect] andReturn:@"path"] projectPath];
+  [[[mockCtx expect] andReturn:@"path"] currentWorkingDirectory];
   [[[mockCtx expect] andReturn:@"home"] userHome];
 }
 

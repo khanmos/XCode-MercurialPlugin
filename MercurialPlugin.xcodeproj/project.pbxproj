@@ -11,11 +11,11 @@
 		E7060A271CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */; };
 		E724CD9B1C9C92C9000F767D /* MKWindowPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E724CD9A1C9C92C9000F767D /* MKWindowPresenter.m */; };
 		E73DACE91C8413FD007F2046 /* MKXCodeNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */; };
+		E7443C161CDFCA1F00F4ADAD /* MKTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E7443C151CDFCA1F00F4ADAD /* MKTask.m */; };
+		E7443C191CE02EA100F4ADAD /* MKCommonHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E7443C181CE02EA100F4ADAD /* MKCommonHelpers.m */; };
 		E7577A391C73F6A600B2A407 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7577A381C73F6A600B2A407 /* OCMock.framework */; };
 		E78432F81C76967300304047 /* MKMercurialCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E78432F71C76967300304047 /* MKMercurialCommand.m */; };
 		E78432F91C76967400304047 /* MKMercurialCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E78432F71C76967300304047 /* MKMercurialCommand.m */; };
-		E78433081C77F47E00304047 /* MKDiffSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78433071C77F47D00304047 /* MKDiffSnippet.m */; };
-		E78433091C77F47F00304047 /* MKDiffSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78433071C77F47D00304047 /* MKDiffSnippet.m */; };
 		E78433211C7AD7DA00304047 /* MKMercurialMenuItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78433201C7AD7DA00304047 /* MKMercurialMenuItemsController.m */; };
 		E78433221C7AD7DB00304047 /* MKMercurialMenuItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78433201C7AD7DA00304047 /* MKMercurialMenuItemsController.m */; };
 		E7A239C41C73954F00BDB947 /* MKModifiedFilesServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A239C31C73954F00BDB947 /* MKModifiedFilesServiceTests.m */; };
@@ -53,14 +53,16 @@
 		E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKModifiedFilesStatusActionCellView.m; sourceTree = "<group>"; };
 		E724CD991C9C92C9000F767D /* MKWindowPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKWindowPresenter.h; sourceTree = "<group>"; };
 		E724CD9A1C9C92C9000F767D /* MKWindowPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKWindowPresenter.m; sourceTree = "<group>"; };
-		E73DACE11C82DBA6007F2046 /* MKNotificationConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKNotificationConstants.h; sourceTree = "<group>"; };
 		E73DACE71C8413FD007F2046 /* MKXCodeNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKXCodeNavigator.h; sourceTree = "<group>"; };
 		E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKXCodeNavigator.m; sourceTree = "<group>"; };
+		E7443C141CDFCA1F00F4ADAD /* MKTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTask.h; sourceTree = "<group>"; };
+		E7443C151CDFCA1F00F4ADAD /* MKTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTask.m; sourceTree = "<group>"; };
+		E7443C171CE02EA100F4ADAD /* MKCommonHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCommonHelpers.h; sourceTree = "<group>"; };
+		E7443C181CE02EA100F4ADAD /* MKCommonHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCommonHelpers.m; sourceTree = "<group>"; };
+		E7443C1A1CE05A7F00F4ADAD /* MKCommandExecution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCommandExecution.h; sourceTree = "<group>"; };
 		E7577A381C73F6A600B2A407 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
 		E78432F61C76967300304047 /* MKMercurialCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMercurialCommand.h; sourceTree = "<group>"; };
 		E78432F71C76967300304047 /* MKMercurialCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMercurialCommand.m; sourceTree = "<group>"; };
-		E78433061C77F47D00304047 /* MKDiffSnippet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDiffSnippet.h; sourceTree = "<group>"; };
-		E78433071C77F47D00304047 /* MKDiffSnippet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDiffSnippet.m; sourceTree = "<group>"; };
 		E784331F1C7AD7DA00304047 /* MKMercurialMenuItemsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMercurialMenuItemsController.h; sourceTree = "<group>"; };
 		E78433201C7AD7DA00304047 /* MKMercurialMenuItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMercurialMenuItemsController.m; sourceTree = "<group>"; };
 		E7A239C21C71808D00BDB947 /* MKConsoleOutputParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKConsoleOutputParser.h; sourceTree = "<group>"; };
@@ -155,8 +157,9 @@
 		E73DACE01C82DB87007F2046 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				E73DACE11C82DBA6007F2046 /* MKNotificationConstants.h */,
 				E7A9A8A91C875C1600FFAC16 /* MKConstants.h */,
+				E7443C171CE02EA100F4ADAD /* MKCommonHelpers.h */,
+				E7443C181CE02EA100F4ADAD /* MKCommonHelpers.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -186,8 +189,9 @@
 				E7A4A81F1C6C100100E41806 /* MKShellCommand.m */,
 				E78432F61C76967300304047 /* MKMercurialCommand.h */,
 				E78432F71C76967300304047 /* MKMercurialCommand.m */,
-				E78433061C77F47D00304047 /* MKDiffSnippet.h */,
-				E78433071C77F47D00304047 /* MKDiffSnippet.m */,
+				E7443C141CDFCA1F00F4ADAD /* MKTask.h */,
+				E7443C151CDFCA1F00F4ADAD /* MKTask.m */,
+				E7443C1A1CE05A7F00F4ADAD /* MKCommandExecution.h */,
 			);
 			name = ShellCommand;
 			sourceTree = "<group>";
@@ -278,7 +282,6 @@
 				E78432F51C76964C00304047 /* ShellCommand */,
 				E78433271C7CEB2900304047 /* UI */,
 				E73DACE61C8413D8007F2046 /* XCodeAPI */,
-				E7B3E8021CBD5AC2000FDC7A /* XCodeNotifications */,
 				E7A4A8121C6BF39100E41806 /* MercurialPlugin.h */,
 				E7A4A8131C6BF39100E41806 /* MercurialPlugin.m */,
 				E7A4A8151C6BF39100E41806 /* NSObject_Extension.h */,
@@ -359,13 +362,6 @@
 			children = (
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		E7B3E8021CBD5AC2000FDC7A /* XCodeNotifications */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = XCodeNotifications;
 			sourceTree = "<group>";
 		};
 		E7B9A9111CA8D8FF00ED71F3 /* ModifiedFilesStatusMenu */ = {
@@ -485,7 +481,6 @@
 				E7A4A8261C6C600600E41806 /* MKMercurialFile.m in Sources */,
 				E7060A271CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m in Sources */,
 				E7C9AA1E1C7D1A4800010B46 /* MKModifiedFilesStatusTableWindowController.m in Sources */,
-				E78433081C77F47E00304047 /* MKDiffSnippet.m in Sources */,
 				E73DACE91C8413FD007F2046 /* MKXCodeNavigator.m in Sources */,
 				E7060A231CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.m in Sources */,
 				E78433211C7AD7DA00304047 /* MKMercurialMenuItemsController.m in Sources */,
@@ -498,7 +493,9 @@
 				E7A4A8411C6DA5B100E41806 /* MKIDEContext.m in Sources */,
 				E7A4A83D1C6DA31A00E41806 /* MKFilesStatusService.m in Sources */,
 				E7A4A8141C6BF39100E41806 /* MercurialPlugin.m in Sources */,
+				E7443C191CE02EA100F4ADAD /* MKCommonHelpers.m in Sources */,
 				E7A4A8171C6BF39100E41806 /* NSObject_Extension.m in Sources */,
+				E7443C161CDFCA1F00F4ADAD /* MKTask.m in Sources */,
 				E7A4A8291C6C626A00E41806 /* MKFileStatusParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,7 +506,6 @@
 			files = (
 				E7A239C41C73954F00BDB947 /* MKModifiedFilesServiceTests.m in Sources */,
 				E7FF8FE61CB486F50062B35C /* MKAlertCoordinator.m in Sources */,
-				E78433091C77F47F00304047 /* MKDiffSnippet.m in Sources */,
 				E78433221C7AD7DB00304047 /* MKMercurialMenuItemsController.m in Sources */,
 				E7A4A8391C6C6AE400E41806 /* MKMercurialFile.m in Sources */,
 				E7A9A8A61C86D7CA00FFAC16 /* MKXCodeNavigator.m in Sources */,

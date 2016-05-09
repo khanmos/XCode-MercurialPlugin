@@ -12,11 +12,8 @@ typedef void (^MKFileOperationOnComplete)(BOOL success);
 - (instancetype) initWithParser:(MKFileStatusParser*)fileStateParser;
 
 - (void) findAllModifiedFilesWithCompletion:(MKFilesStatusOnComplete)onComplete;
-
 - (void) revertFile:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete;
-
 - (void) deleteFile:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete;
-
 - (void) markModifiedFileAsResolved:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete;
 
 @end

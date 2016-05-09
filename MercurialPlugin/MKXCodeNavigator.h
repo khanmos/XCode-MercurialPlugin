@@ -13,6 +13,9 @@ IDEEditorArea,
 IDEWorkspaceWindowController,
 IDEWorkspaceDocument;
 
+/**
+ This class uses private XCode API to perform certain operations like opening the text file in the editor.
+ */
 @interface MKXCodeNavigator : NSObject
 
 + (IDEWorkspace *)currentWorkspace;

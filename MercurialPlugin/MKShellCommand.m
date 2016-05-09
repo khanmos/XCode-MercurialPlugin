@@ -1,12 +1,45 @@
 //  Copyright © 2016 Mohtashim Khan. All rights reserved.
 
 #import "MKShellCommand.h"
+#import "MKTask.h"
+#import "MKCommonHelpers.h"
+
+static NSString *kMKInvalidShellCommandErrorDomain = @"MKInvalidCommand";
+static NSString *kMKShellCommandExecuteErrorDomain = @"MKCommandExecuteError";
+static NSString *kMKErrorMessageCommandNameParamName = @"command";
+static NSString *kMKErrorMessageArgumentsParamName = @"arguments";
+
+static NSString *kMKInvalidCommandErrorMessage = @"Invalid Shell Command";
+
+static NSDictionary *MKShellCommandDictionary(MKTask *task)
+{
+  NSMutableDictionary *commandDictionary = [NSMutableDictionary dictionary];
+  if (task.taskName) {
+    commandDictionary[kMKErrorMessageCommandNameParamName] = task.taskName;
+  }
+  if (task.taskArguments.count > 0) {
+    commandDictionary[kMKErrorMessageArgumentsParamName] = task.taskArguments;
+  }
+  return [NSDictionary dictionaryWithDictionary:commandDictionary];
+}
+
+static NSError *MKGetInvalidCommandErrorForTask(MKTask *task)
+{
+  return [NSError errorWithDomain:kMKInvalidShellCommandErrorDomain
+                             code:100
+                         userInfo:MKShellCommandDictionary(task)];
+}
+
+static NSError *MKGetCommandExecuteErrorForTask(MKTask *task)
+{
+  return [NSError errorWithDomain:kMKShellCommandExecuteErrorDomain
+                             code:101
+                         userInfo:MKShellCommandDictionary(task)];
+}
 
 @interface MKShellCommand ()
 
-@property (nonatomic, strong) NSTask *task;
-@property (nonatomic, strong) NSFileHandle *file;
-@property (nonatomic, strong) dispatch_queue_t cmdSerialQueue;
+@property (nonatomic, strong) MKTask *task;
 
 @end
 
@@ -14,47 +47,46 @@
 
 + (MKShellCommand*) commandWithName:(NSString*)cmdName
 {
-  NSPipe *pipe = [NSPipe pipe];
-  NSFileHandle *file = pipe.fileHandleForReading;
-  
-  NSTask *task = [[NSTask alloc] init];
-  task.launchPath = cmdName;
-  task.standardOutput = pipe;
-  
-  MKShellCommand *cmd = [[MKShellCommand alloc] init];
-  cmd.task = task;
-  cmd.file = file;
-  
-  return cmd;
+  return [[self alloc] initWithTask:[MKTask taskWithName:cmdName]];
 }
 
-- (instancetype) init {
+- (instancetype) initWithTask:(MKTask *)task {
   if( self = [super init]){
-    self.cmdSerialQueue = dispatch_queue_create("com.mk.shellCommandSerialQueue", DISPATCH_QUEUE_SERIAL);
+    self.task = task;
   }
   return self;
 }
 
-- (void) executeWithArguments:(NSArray<NSString *>*) arguments
-                   onComplete:(CommandCompletionBlock)onComplete
+#pragma mark - MKCommandExecution
+
+- (void)runCommandWithArguments:(NSArray<NSString *> *)arguments
+                        success:(MKCommandExecutionSuccess)success
+                        failure:(MKCommandExecutionFailure)failure
 {
-  dispatch_async(self.cmdSerialQueue, ^{
-    
-    if (arguments){
-      self.task.arguments = arguments;
-    }
-    
-    [self.task launch];
-    
-    NSData *data = [self.file readDataToEndOfFile];
-    [self.file closeFile];
-    
-    NSString *output = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    
-    if (onComplete){
-      onComplete(output, nil);
-    }
-  });
+  NSParameterAssert(success);
+  NSParameterAssert(failure);
+
+  if (!self.task.validTask) {
+    failure(MKGetInvalidCommandErrorForTask(self.task));
+    return;
+  }
+
+  if (arguments){
+    self.task.taskArguments = arguments;
+  }
+  NSString *output = [self.task launch];
+
+  // Check if there was any error
+  if (MKCommonsTrimString(self.task.error).length > 0) {
+    failure(MKGetCommandExecuteErrorForTask(self.task));
+    return;
+  }
+  success(MKCommonsTrimString(output));
+}
+
+- (void)abortTask
+{
+  [self.task abort];
 }
 
 @end
