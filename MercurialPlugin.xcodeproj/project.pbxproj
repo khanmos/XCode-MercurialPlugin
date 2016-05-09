@@ -13,6 +13,13 @@
 		E73DACE91C8413FD007F2046 /* MKXCodeNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E73DACE81C8413FD007F2046 /* MKXCodeNavigator.m */; };
 		E7443C161CDFCA1F00F4ADAD /* MKTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E7443C151CDFCA1F00F4ADAD /* MKTask.m */; };
 		E7443C191CE02EA100F4ADAD /* MKCommonHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E7443C181CE02EA100F4ADAD /* MKCommonHelpers.m */; };
+		E7443C1B1CE06C5D00F4ADAD /* MKCommonHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E7443C181CE02EA100F4ADAD /* MKCommonHelpers.m */; };
+		E7443C1C1CE06C7A00F4ADAD /* MKWindowPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E724CD9A1C9C92C9000F767D /* MKWindowPresenter.m */; };
+		E7443C1D1CE06C8A00F4ADAD /* MKModifiedFilesStatusMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E232D91C9A558900C635A7 /* MKModifiedFilesStatusMenu.m */; };
+		E7443C1E1CE06C9100F4ADAD /* MKModifiedFilesStatusMenuDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A4E1E71C8AC2BC006B9F50 /* MKModifiedFilesStatusMenuDataSource.m */; };
+		E7443C1F1CE06C9B00F4ADAD /* MKModifiedFilesStatusTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A221CA741020069D4ED /* MKModifiedFilesStatusTableDelegate.m */; };
+		E7443C201CE06CAE00F4ADAD /* MKTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E7443C151CDFCA1F00F4ADAD /* MKTask.m */; };
+		E7443C211CE06CC500F4ADAD /* MKModifiedFilesStatusActionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7060A261CA74F140069D4ED /* MKModifiedFilesStatusActionCellView.m */; };
 		E7577A391C73F6A600B2A407 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7577A381C73F6A600B2A407 /* OCMock.framework */; };
 		E78432F81C76967300304047 /* MKMercurialCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E78432F71C76967300304047 /* MKMercurialCommand.m */; };
 		E78432F91C76967400304047 /* MKMercurialCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E78432F71C76967300304047 /* MKMercurialCommand.m */; };
@@ -504,18 +511,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7443C1C1CE06C7A00F4ADAD /* MKWindowPresenter.m in Sources */,
+				E7443C211CE06CC500F4ADAD /* MKModifiedFilesStatusActionCellView.m in Sources */,
 				E7A239C41C73954F00BDB947 /* MKModifiedFilesServiceTests.m in Sources */,
 				E7FF8FE61CB486F50062B35C /* MKAlertCoordinator.m in Sources */,
+				E7443C1B1CE06C5D00F4ADAD /* MKCommonHelpers.m in Sources */,
 				E78433221C7AD7DB00304047 /* MKMercurialMenuItemsController.m in Sources */,
 				E7A4A8391C6C6AE400E41806 /* MKMercurialFile.m in Sources */,
 				E7A9A8A61C86D7CA00FFAC16 /* MKXCodeNavigator.m in Sources */,
 				E7A9A8A51C86BC7900FFAC16 /* MKModifiedFilesStatusTableWindowController.m in Sources */,
 				E78432F91C76967400304047 /* MKMercurialCommand.m in Sources */,
+				E7443C201CE06CAE00F4ADAD /* MKTask.m in Sources */,
 				E7A9A8A81C86D87C00FFAC16 /* MKMercurialFileTests.m in Sources */,
 				E7A239C71C7395F900BDB947 /* MKShellCommand.m in Sources */,
+				E7443C1D1CE06C8A00F4ADAD /* MKModifiedFilesStatusMenu.m in Sources */,
 				E7A4A8371C6C648900E41806 /* MKFileStateParserTest.m in Sources */,
 				E7A4A8381C6C65F800E41806 /* MKFileStatusParser.m in Sources */,
+				E7443C1E1CE06C9100F4ADAD /* MKModifiedFilesStatusMenuDataSource.m in Sources */,
 				E7A239C51C7395DB00BDB947 /* MKFilesStatusService.m in Sources */,
+				E7443C1F1CE06C9B00F4ADAD /* MKModifiedFilesStatusTableDelegate.m in Sources */,
 				E7A239C61C7395E800BDB947 /* MKIDEContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

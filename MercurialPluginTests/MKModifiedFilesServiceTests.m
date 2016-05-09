@@ -18,13 +18,8 @@ static id mockCtx;
 
 - (void)setUp {
   [super setUp];
-  
-  mockCtx = [OCMockObject partialMockForObject:[MKIDEContext currentContext]];
+
   mockMercurialCommand = [OCMockObject mockForClass:[MKMercurialCommand class]];
-  
-  [[[mockCtx expect] andReturn:@"userName"] userName];
-  [[[mockCtx expect] andReturn:@"path"] currentWorkingDirectory];
-  [[[mockCtx expect] andReturn:@"home"] userHome];
 }
 
 - (void)tearDown {
@@ -54,14 +49,13 @@ static id mockCtx;
   @"? ../Users/mohkhan/test/ALTest/ALTest/ViewController.m\n"
   @"? ../Users/mohkhan/test/ALTest/ALTest/main.m";
 
-  [[[mockMercurialCommand expect] andReturn:mockMercurialCommand] commandWithType:MKMercurialCommandTypeFilesStatus arguments:OCMOCK_ANY];
+  [[[mockMercurialCommand expect] andReturn:mockMercurialCommand] commandWithType:MKMercurialCommandTypeFilesStatus];
   
   [[[mockMercurialCommand expect] andDo:^(NSInvocation *invocation) {
-    
     void (^blk)(NSString* op, NSError *err);
     [invocation getArgument:&blk atIndex:2];
     blk(shellOutut, nil);
-  }] runWithCompletion:OCMOCK_ANY];
+  }] runCommandWithArguments:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
   
   MKFilesStatusService *svc = [[MKFilesStatusService alloc] initWithParser:[[MKFileStatusParser alloc] init]];
   
