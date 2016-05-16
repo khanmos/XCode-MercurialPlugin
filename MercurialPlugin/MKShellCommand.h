@@ -8,6 +8,6 @@
  */
 @interface MKShellCommand : NSObject <MKCommandExecution>
 
-+ (MKShellCommand*)commandWithName:(NSString *)cmdName;
++ (MKShellCommand*)commandWithName:(NSString *)cmdName currentWorkingDirectory:(NSString *)cwd;
 
 @end

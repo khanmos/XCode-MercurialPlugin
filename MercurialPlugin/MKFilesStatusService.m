@@ -103,7 +103,7 @@ static NSString *kRMCommandString = @"/bin/rm";
 
 - (void) deleteFile:(MKMercurialFile*)file onComplete:(MKFileOperationOnComplete)onComplete
 {
-  MKShellCommand *deleteCmd = [MKShellCommand commandWithName:kRMCommandString];
+  MKShellCommand *deleteCmd = [MKShellCommand commandWithName:kRMCommandString currentWorkingDirectory:MKCurrentUserWorkingDirectory()];
   /*
    We have to be extra careful when we are using the "rm" command.
    */

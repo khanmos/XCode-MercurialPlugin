@@ -86,13 +86,16 @@ static NSMenuItem *s_moreMenuItem;
       }
     }
 
-    NSMenuItem *showMoreMenuItem = [self.dataSource modifiedFilesStatusMenuShowMoreMenuItem:self];
-    showMoreMenuItem.target = self;
-    showMoreMenuItem.action = @selector(_didSelectShowMoreItem:);
-    showMoreMenuItem.representedObject = kShowMoreMenuItemIdentifier;
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self.mainMercurialMenuItem.menu addItem:showMoreMenuItem];
-    });
+    // Add Show More Items
+    if (numberOfMenuItemsInSection > 0) {
+      NSMenuItem *showMoreMenuItem = [self.dataSource modifiedFilesStatusMenuShowMoreMenuItem:self];
+      showMoreMenuItem.target = self;
+      showMoreMenuItem.action = @selector(_didSelectShowMoreItem:);
+      showMoreMenuItem.representedObject = kShowMoreMenuItemIdentifier;
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mainMercurialMenuItem.menu addItem:showMoreMenuItem];
+      });
+    }
 
     self.currentModifiedFilesMenuItems = [NSArray arrayWithArray:newMenuItems];
     self.processingUpdates = NO;
@@ -112,24 +115,22 @@ static NSMenuItem *s_moreMenuItem;
 
 - (void)_removeCurrentModifiedMenuItems
 {
-  if (self.currentModifiedFilesMenuItems.count > 0) {
-    NSArray *existingMenuItems = [self.currentModifiedFilesMenuItems copy];
-    dispatch_async(dispatch_get_main_queue(), ^{
-      
-      NSInteger showMoreItemIndex = [self.mainMercurialMenuItem.menu indexOfItemWithRepresentedObject:kShowMoreMenuItemIdentifier];
-      
-      if (showMoreItemIndex > 0) {
-        [self.mainMercurialMenuItem.menu removeItemAtIndex:showMoreItemIndex];
+  NSArray *existingMenuItems = [self.currentModifiedFilesMenuItems copy];
+  dispatch_async(dispatch_get_main_queue(), ^{
+
+    NSInteger showMoreItemIndex = [self.mainMercurialMenuItem.menu indexOfItemWithRepresentedObject:kShowMoreMenuItemIdentifier];
+
+    if (showMoreItemIndex > 0) {
+      [self.mainMercurialMenuItem.menu removeItemAtIndex:showMoreItemIndex];
+    }
+
+    for (NSMenuItem *menuItem in existingMenuItems) {
+      if (menuItem.parentItem) {
+        [self.mainMercurialMenuItem.menu removeItem:menuItem];
       }
-      
-      for (NSMenuItem *menuItem in existingMenuItems) {
-        if (menuItem.parentItem) {
-          [self.mainMercurialMenuItem.menu removeItem:menuItem];
-        }
-      }
-    });
-    self.currentModifiedFilesMenuItems = @[];
-  }
+    }
+  });
+  self.currentModifiedFilesMenuItems = @[];
 }
 
 #pragma mark - Menu Action Handler

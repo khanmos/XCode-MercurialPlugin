@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong, readonly) NSString *taskName;
 @property (nonatomic, strong, readwrite) NSArray<NSString *> *taskArguments;
+@property (nonatomic, strong, readwrite) NSString *currentWorkingDirectory;
 @property (nonatomic, assign, readonly) BOOL validTask;
 
 @property (nonatomic, strong, readonly) NSString *output;

@@ -3,6 +3,8 @@
 #import "MKTask.h"
 #import "MKCommonHelpers.h"
 
+static NSDictionary *kFBOnlyWatchManPath;
+
 @interface MKTask ()
 
 @property (nonatomic, strong) NSTask *task;
@@ -12,6 +14,11 @@
 @end
 
 @implementation MKTask
+
++(void)load
+{
+  kFBOnlyWatchManPath = @{@"PATH" : @"/opt/facebook/bin/"};
+}
 
 + (MKTask *)taskWithName:(NSString *)taskName
 {
@@ -48,7 +55,7 @@
   _output = [self _outputString];
   _error = [self _errorString];
   _task = nil;
-  return self.output;
+  return _output;
 }
 
 - (void)abort
@@ -84,6 +91,8 @@
 
     _task = [[NSTask alloc] init];
     _task.launchPath = _taskName;
+    //_task.currentDirectoryPath = self.currentWorkingDirectory;
+    _task.environment = kFBOnlyWatchManPath;
     _task.standardOutput = outputPipe;
     _task.standardError = errorPipe;
 

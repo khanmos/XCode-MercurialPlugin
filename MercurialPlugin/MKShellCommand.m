@@ -8,10 +8,11 @@ static NSString *kMKInvalidShellCommandErrorDomain = @"MKInvalidCommand";
 static NSString *kMKShellCommandExecuteErrorDomain = @"MKCommandExecuteError";
 static NSString *kMKErrorMessageCommandNameParamName = @"command";
 static NSString *kMKErrorMessageArgumentsParamName = @"arguments";
+static NSString *kMKErrorMessageErrordescriptionParamName = @"errorDescription";
 
 static NSString *kMKInvalidCommandErrorMessage = @"Invalid Shell Command";
 
-static NSDictionary *MKShellCommandDictionary(MKTask *task)
+static NSDictionary *MKShellCommandDictionary(MKTask *task, NSString *errorDescription)
 {
   NSMutableDictionary *commandDictionary = [NSMutableDictionary dictionary];
   if (task.taskName) {
@@ -20,21 +21,24 @@ static NSDictionary *MKShellCommandDictionary(MKTask *task)
   if (task.taskArguments.count > 0) {
     commandDictionary[kMKErrorMessageArgumentsParamName] = task.taskArguments;
   }
+  if (errorDescription) {
+    commandDictionary[kMKErrorMessageErrordescriptionParamName] = errorDescription;
+  }
   return [NSDictionary dictionaryWithDictionary:commandDictionary];
 }
 
-static NSError *MKGetInvalidCommandErrorForTask(MKTask *task)
+static NSError *MKGetInvalidCommandErrorForTask(MKTask *task, NSString *errorDescription)
 {
   return [NSError errorWithDomain:kMKInvalidShellCommandErrorDomain
                              code:100
-                         userInfo:MKShellCommandDictionary(task)];
+                         userInfo:MKShellCommandDictionary(task, errorDescription)];
 }
 
-static NSError *MKGetCommandExecuteErrorForTask(MKTask *task)
+static NSError *MKGetCommandExecuteErrorForTask(MKTask *task, NSString *errorDescription)
 {
   return [NSError errorWithDomain:kMKShellCommandExecuteErrorDomain
                              code:101
-                         userInfo:MKShellCommandDictionary(task)];
+                         userInfo:MKShellCommandDictionary(task, errorDescription)];
 }
 
 @interface MKShellCommand ()
@@ -45,14 +49,17 @@ static NSError *MKGetCommandExecuteErrorForTask(MKTask *task)
 
 @implementation MKShellCommand
 
-+ (MKShellCommand*) commandWithName:(NSString*)cmdName
++ (MKShellCommand*) commandWithName:(NSString*)cmdName currentWorkingDirectory:(NSString *)cwd
 {
-  return [[self alloc] initWithTask:[MKTask taskWithName:cmdName]];
+  return [[self alloc] initWithTask:[MKTask taskWithName:cmdName] currentWorkingDirectory:cwd];
 }
 
-- (instancetype) initWithTask:(MKTask *)task {
+- (instancetype) initWithTask:(MKTask *)task currentWorkingDirectory:(NSString *)cwd {
   if( self = [super init]){
     self.task = task;
+    if (cwd) {
+      self.task.currentWorkingDirectory = cwd;
+    }
   }
   return self;
 }
@@ -60,14 +67,11 @@ static NSError *MKGetCommandExecuteErrorForTask(MKTask *task)
 #pragma mark - MKCommandExecution
 
 - (void)runCommandWithArguments:(NSArray<NSString *> *)arguments
-                        success:(MKCommandExecutionSuccess)success
-                        failure:(MKCommandExecutionFailure)failure
+                        success:(nonnull MKCommandExecutionSuccess)success
+                        failure:(nonnull MKCommandExecutionFailure)failure
 {
-  NSParameterAssert(success);
-  NSParameterAssert(failure);
-
   if (!self.task.validTask) {
-    failure(MKGetInvalidCommandErrorForTask(self.task));
+    failure(MKGetInvalidCommandErrorForTask(self.task, @"Bad command. Check command."));
     return;
   }
 
@@ -78,7 +82,7 @@ static NSError *MKGetCommandExecuteErrorForTask(MKTask *task)
 
   // Check if there was any error
   if (MKCommonsTrimString(self.task.error).length > 0) {
-    failure(MKGetCommandExecuteErrorForTask(self.task));
+    failure(MKGetCommandExecuteErrorForTask(self.task, self.task.error));
     return;
   }
   success(MKCommonsTrimString(output));
